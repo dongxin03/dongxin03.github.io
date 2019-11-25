@@ -658,6 +658,7 @@ ol ol {
 .list-unstyled {
   padding-left: 0;
   list-style: none;
+  overflow: hidden;
 }
 
 .list-inline {
@@ -8715,6 +8716,7 @@ body.okayNav-loaded {
   }
 
   .hidden-xs {
+    overflow: hidden;
     display: none !important;
   }
 
