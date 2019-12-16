@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://dongxin03.github.io/"/>
-  <updated>2019-11-29T09:30:36.248Z</updated>
+  <updated>2019-12-16T01:53:30.498Z</updated>
   <id>http://dongxin03.github.io/</id>
   
   <author>
@@ -15,6 +15,67 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>webSocket用法</title>
+    <link href="http://dongxin03.github.io/2019/12/16/webSocket%E7%94%A8%E6%B3%95/"/>
+    <id>http://dongxin03.github.io/2019/12/16/webSocket%E7%94%A8%E6%B3%95/</id>
+    <published>2019-12-16T01:48:27.000Z</published>
+    <updated>2019-12-16T01:53:30.498Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>在长时间连接，没有通讯时，实际情况可能会出现断连，所以要设置心跳包</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">initSocket() &#123; // 初始化webSocket</span><br><span class="line">    let url = `ws://xxxxxxx`;</span><br><span class="line">    this.webSocket = new WebSocket(url)</span><br><span class="line">    this.webSocket.onopen = this.webSocketOnOpen</span><br><span class="line">    this.webSocket.onclose = this.webSocketOnClose</span><br><span class="line">    this.webSocket.onmessage = this.webSocketOnMessage</span><br><span class="line">    this.webSocket.onerror = this.webSocketOnError</span><br><span class="line">&#125;,</span><br><span class="line">webSocketOnOpen() &#123; // 连接成功</span><br><span class="line">    Notification.success(&quot;已连接，等待接入。&quot;)</span><br><span class="line">    console.log(&apos;websocket连接成功&apos;);</span><br><span class="line">    this.webHeart = setInterval(()=&gt;&#123; // webSoket 心跳包</span><br><span class="line">        this.webSocket.send(&quot;心跳包&quot;);</span><br><span class="line">    &#125;,60000)</span><br><span class="line">&#125;,</span><br><span class="line">webSocketOnMessage(res) &#123; // 等待接收数据 </span><br><span class="line">    console.log(&apos;===res=================================&apos;);</span><br><span class="line">    console.log(res);</span><br><span class="line">    console.log(&apos;====================================&apos;);</span><br><span class="line">&#125;,</span><br><span class="line">webSocketOnClose() &#123;  // 连接关闭</span><br><span class="line">    this.socketClose = true;</span><br><span class="line">    clearInterval(this.webHeart); // 清除心跳包</span><br><span class="line">    console.log(&apos;websocket连接已关闭&apos;);</span><br><span class="line">&#125;,</span><br><span class="line">webSocketOnError(res) &#123; // 连接失败</span><br><span class="line">    if(this.webHeart)&#123;</span><br><span class="line">        clearInterval(this.webHeart); // 清除心跳包</span><br><span class="line">    &#125;;</span><br><span class="line">    console.log(&apos;websocket连接失败&apos;);</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;strong&gt;在长时间连接，没有通讯时，实际情况可能会出现断连，所以要设置心跳包&lt;/strong&gt;&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;li
+      
+    
+    </summary>
+    
+    
+      <category term="技巧" scheme="http:/dongxin03.github.io/categories/%E6%8A%80%E5%B7%A7/"/>
+    
+    
+      <category term="webSocket" scheme="http:/dongxin03.github.io/tags/webSocket/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>webSocket和https的问题</title>
+    <link href="http://dongxin03.github.io/2019/12/13/webSocket%E5%92%8Chttps%E7%9A%84%E9%97%AE%E9%A2%98/"/>
+    <id>http://dongxin03.github.io/2019/12/13/webSocket%E5%92%8Chttps%E7%9A%84%E9%97%AE%E9%A2%98/</id>
+    <published>2019-12-13T07:54:03.000Z</published>
+    <updated>2019-12-13T08:06:18.133Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>webSocket 与 https 报错</p></blockquote><ul><li>如果网站使用HTTPS，WebSocket必须要使用wss协议；</li><li>使用wss协议的连接请求必须只能写域名，而非IP+端口；</li><li>建议在URL域名后面为websocket定义一个路径，本例中是/wss/；</li></ul><hr><h4 id="nginx-配置"><a href="#nginx-配置" class="headerlink" title="nginx 配置"></a>nginx 配置</h4><ul><li>前提是要配置好HTTPS，只需要在HTTPS配置的server内加一个location即可；<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># websockets</span><br><span class="line">location /wss/ &#123;</span><br><span class="line">    proxy_pass http://xxx.xx.xx.xx:8006;           </span><br><span class="line">    proxy_http_version 1.1;</span><br><span class="line">    proxy_set_header Upgrade $http_upgrade;</span><br><span class="line">    proxy_set_header Connection &quot;Upgrade&quot;;</span><br><span class="line">    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">    proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li></ul><hr><h4 id="注意："><a href="#注意：" class="headerlink" title="注意："></a>注意：</h4><ul><li>1、location /wss/ {…}这里要格外注意！<ul><li>html中的url是 wss://<a href="http://www.xxx.cn/wss/，所以Nginx配置中一定要是" target="_blank" rel="noopener">www.xxx.cn/wss/，所以Nginx配置中一定要是</a> /wss/<br>如果前端是 wss://<a href="http://www.xxx.cn/wss，Nginx对应是" target="_blank" rel="noopener">www.xxx.cn/wss，Nginx对应是</a> /wss</li></ul></li></ul><p>　　2、proxy_pass对应的最好是公网IP加端口号，我试过 ‘localhost’，’127.0.0.1’，域名都会失败</p><p>　　3、proxy_http_version 1.1 版本号必须是1.1，这条配置必需</p><p>说明：</p><p>　　Nginx反向代理，无论是HTTP/S或是WebSocket都会走443端口，由Nginx分发给各个项目服务器。在我的项目中WebSocket服务器是独立于Django的，监听端口为8006。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt;webSocket 与 https 报错&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;如果网站使用HTTPS，WebSocket必须要使用wss协议；&lt;/li&gt;
+&lt;li&gt;使用wss协议的连接请求必须只能写域名，而非IP+端口；&lt;/li&gt;
+
+      
+    
+    </summary>
+    
+    
+      <category term="技巧" scheme="http:/dongxin03.github.io/categories/%E6%8A%80%E5%B7%A7/"/>
+    
+    
+      <category term="webSocket" scheme="http:/dongxin03.github.io/tags/webSocket/"/>
+    
+      <category term="https" scheme="http:/dongxin03.github.io/tags/https/"/>
+    
+  </entry>
   
   <entry>
     <title>react+electron搭建七牛云上传图片桌面端</title>
