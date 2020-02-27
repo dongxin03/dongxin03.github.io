@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://dongxin03.github.io/about/index.html</loc>
+    
+    <lastmod>2020-02-27T07:43:50.256Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://dongxin03.github.io/2019/12/26/%E5%AE%9E%E7%8E%B0%E8%A7%86%E9%A2%91%E9%80%9A%E8%AF%9D%E5%8F%8A%E8%B0%83%E8%AF%95/</loc>
     
     <lastmod>2019-12-26T02:35:17.861Z</lastmod>
@@ -26,13 +33,6 @@
     <loc>http://dongxin03.github.io/2019/11/28/react+electron%E6%90%AD%E5%BB%BA%E4%B8%83%E7%89%9B%E4%BA%91%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87%E6%A1%8C%E9%9D%A2%E7%AB%AF/</loc>
     
     <lastmod>2019-11-29T09:30:36.248Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://dongxin03.github.io/about/index.html</loc>
-    
-    <lastmod>2019-11-26T03:20:22.821Z</lastmod>
     
   </url>
   
