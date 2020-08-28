@@ -2,23 +2,30 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://dongxin03.github.io/2020/08/24/mac%E7%AC%94%E8%AE%B0%E6%9C%AC%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4/</loc>
-    
-    <lastmod>2020-08-27T22:32:36.774Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://dongxin03.github.io/2020/08/19/webpack3.0%E6%95%B4%E7%90%86/</loc>
-    
-    <lastmod>2020-08-19T12:36:05.583Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://dongxin03.github.io/2020/08/18/ES6ES7ES8/</loc>
     
-    <lastmod>2020-08-19T12:01:12.182Z</lastmod>
+    <lastmod>2020-08-28T10:00:12.391Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dongxin03.github.io/2019/11/21/hexo%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/</loc>
+    
+    <lastmod>2020-08-28T00:24:11.969Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dongxin03.github.io/2020/08/28/webpack4.0%E6%95%B4%E7%90%86/</loc>
+    
+    <lastmod>2020-08-28T00:17:02.066Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://dongxin03.github.io/2020/08/24/mac%E7%AC%94%E8%AE%B0%E6%9C%AC%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4/</loc>
+    
+    <lastmod>2020-08-28T00:15:44.488Z</lastmod>
     
   </url>
   
@@ -138,13 +145,6 @@
     <loc>http://dongxin03.github.io/tags/index.html</loc>
     
     <lastmod>2019-11-25T06:12:45.320Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://dongxin03.github.io/2019/11/21/hello-world/</loc>
-    
-    <lastmod>2019-11-21T02:14:39.773Z</lastmod>
     
   </url>
   
