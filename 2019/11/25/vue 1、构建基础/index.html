@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>vue 1、构建基础 | 董新的博客</title>
+  <meta name="description" content="npm与yarn webpack 环境配置 接口配置 单页应用 多页应用 开发技巧 实用工具依赖工具   node -v  查看node版本 npm -v 查看npm版本脚手架安装 npm i -g @vue&#x2F;cli  &#x2F;&#x2F; i == install yarn global add @vue&#x2F;cli创建一个新项目 vue creact my-page 构建一个基础项目一般需要（Babel\Ro">
+<meta name="keywords" content="vue,构建">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vue 1、构建基础">
+<meta property="og:url" content="http:&#x2F;&#x2F;dongxin03.github.io&#x2F;2019&#x2F;11&#x2F;25&#x2F;vue%201%E3%80%81%E6%9E%84%E5%BB%BA%E5%9F%BA%E7%A1%80&#x2F;index.html">
+<meta property="og:site_name" content="董新的博客">
+<meta property="og:description" content="npm与yarn webpack 环境配置 接口配置 单页应用 多页应用 开发技巧 实用工具依赖工具   node -v  查看node版本 npm -v 查看npm版本脚手架安装 npm i -g @vue&#x2F;cli  &#x2F;&#x2F; i == install yarn global add @vue&#x2F;cli创建一个新项目 vue creact my-page 构建一个基础项目一般需要（Babel\Ro">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http:&#x2F;&#x2F;youxiangshijie.cn&#x2F;vue-jiegoutu.jpg">
+<meta property="og:updated_time" content="2019-11-25T07:57:51.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;youxiangshijie.cn&#x2F;vue-jiegoutu.jpg">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://dongxin03.github.io/2019/11/25/vue%201%E3%80%81%E6%9E%84%E5%BB%BA%E5%9F%BA%E7%A1%80/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="董新的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+</head>
+
+
+<body class="main-center theme-green" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/cofess" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">董新</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">web前端工程师 &amp; 颓废患者</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> 大沈阳</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <div> <img src="http://youxiangshijie.cn/hexo-zhuyila.png"/> <p>近期打算换工作，北京有没有需要前端的</p> </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/react/">react</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/react/%E4%B8%83%E7%89%9B%E4%BA%91/">七牛云</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/vue/">vue</a><span class="category-list-count">7</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/vue/%E5%A3%B0%E7%BD%91/">声网</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8A%80%E5%B7%A7/">技巧</a><span class="category-list-count">10</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8A%80%E5%B7%A7/html5/">html5</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AF%AD%E6%B3%95/">语法</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/" rel="tag">Markdown</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/api/" rel="tag">api</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/election/" rel="tag">election</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/https/" rel="tag">https</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/" rel="tag">js</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/" rel="tag">mac</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react/" rel="tag">react</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/router/" rel="tag">router</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vuex/" rel="tag">vuex</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/" rel="tag">web</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webSocket/" rel="tag">webSocket</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/" rel="tag">webpack</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BC%98%E5%8C%96/" rel="tag">优化</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A3%B0%E7%BD%91/" rel="tag">声网</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%80%E5%B7%A7/" rel="tag">技巧</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%84%E5%BB%BA/" rel="tag">构建</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AD%A3%E5%88%99/" rel="tag">正则</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%AD%E6%B3%95/" rel="tag">语法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%A1%B5%E9%9D%A2/" rel="tag">页面</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Markdown/" style="font-size: 13px;">Markdown</a> <a href="/tags/api/" style="font-size: 13.33px;">api</a> <a href="/tags/election/" style="font-size: 13px;">election</a> <a href="/tags/https/" style="font-size: 13px;">https</a> <a href="/tags/js/" style="font-size: 13px;">js</a> <a href="/tags/mac/" style="font-size: 13px;">mac</a> <a href="/tags/react/" style="font-size: 13px;">react</a> <a href="/tags/router/" style="font-size: 13px;">router</a> <a href="/tags/vue/" style="font-size: 14px;">vue</a> <a href="/tags/vuex/" style="font-size: 13px;">vuex</a> <a href="/tags/web/" style="font-size: 13.67px;">web</a> <a href="/tags/webSocket/" style="font-size: 13.33px;">webSocket</a> <a href="/tags/webpack/" style="font-size: 13px;">webpack</a> <a href="/tags/%E4%BC%98%E5%8C%96/" style="font-size: 13px;">优化</a> <a href="/tags/%E5%A3%B0%E7%BD%91/" style="font-size: 13px;">声网</a> <a href="/tags/%E6%8A%80%E5%B7%A7/" style="font-size: 13px;">技巧</a> <a href="/tags/%E6%9E%84%E5%BB%BA/" style="font-size: 13px;">构建</a> <a href="/tags/%E6%AD%A3%E5%88%99/" style="font-size: 13px;">正则</a> <a href="/tags/%E8%AF%AD%E6%B3%95/" style="font-size: 13px;">语法</a> <a href="/tags/%E9%A1%B5%E9%9D%A2/" style="font-size: 13px;">页面</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">六月 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a><span class="archive-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2022/06/10/%E5%BC%80%E5%A7%8B%E5%AD%A6%E4%B9%A0vue/" class="title">开始学习vue</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-06-10T10:30:06.000Z" itemprop="datePublished">2022-06-10</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E6%8A%80%E5%B7%A7/">技巧</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/12/03/%E8%8A%82%E6%B5%81/" class="title">节流</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-12-03T07:42:14.000Z" itemprop="datePublished">2020-12-03</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E6%8A%80%E5%B7%A7/">技巧</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/12/03/%E5%B8%B8%E7%94%A8%E7%9A%84%E4%B8%80%E4%BA%9B%E6%AD%A3%E5%88%99/" class="title">常用的一些正则</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-12-03T07:32:14.000Z" itemprop="datePublished">2020-12-03</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E6%8A%80%E5%B7%A7/">技巧</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/11/18/%E5%8E%9F%E7%94%9FJS%E4%BD%BF%E7%94%A8Blob%E5%AF%BC%E5%87%BAcsv%E6%96%87%E4%BB%B6/" class="title">原生JS使用Blob导出csv文件</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-11-18T12:09:38.000Z" itemprop="datePublished">2020-11-18</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E6%8A%80%E5%B7%A7/">技巧</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/08/28/webpack4.0%E6%95%B4%E7%90%86/" class="title">webpack 4.0 整理</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-08-28T02:06:18.000Z" itemprop="datePublished">2020-08-28</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="vue-vue 1、构建基础" class="article article-type-vue" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      vue 1、构建基础
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/11/25/vue%201%E3%80%81%E6%9E%84%E5%BB%BA%E5%9F%BA%E7%A1%80/" class="article-date">
+	  <time datetime="2019-11-25T07:46:47.000Z" itemprop="datePublished">2019-11-25</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/vue/">vue</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/vue/" rel="tag">vue</a>, <a class="article-tag-link" href="/tags/%E6%9E%84%E5%BB%BA/" rel="tag">构建</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/11/25/vue%201%E3%80%81%E6%9E%84%E5%BB%BA%E5%9F%BA%E7%A1%80/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 1.8k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 7(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p><img src="http://youxiangshijie.cn/vue-jiegoutu.jpg" alt="vue 结构图"></p>
+<ol>
+<li>npm与yarn</li>
+<li>webpack</li>
+<li>环境配置</li>
+<li>接口配置</li>
+<li>单页应用</li>
+<li>多页应用</li>
+<li>开发技巧</li>
+<li>实用工具<h3 id="依赖工具"><a href="#依赖工具" class="headerlink" title="依赖工具"></a>依赖工具</h3></li>
+</ol>
+<ul>
+<li>node -v  查看node版本</li>
+<li>npm -v 查看npm版本<h3 id="脚手架安装"><a href="#脚手架安装" class="headerlink" title="脚手架安装"></a>脚手架安装</h3></li>
+<li>npm i -g @vue/cli  // i == install</li>
+<li>yarn global add @vue/cli<h3 id="创建一个新项目"><a href="#创建一个新项目" class="headerlink" title="创建一个新项目"></a>创建一个新项目</h3></li>
+<li>vue creact my-page</li>
+<li>构建一个基础项目一般需要（Babel\Router\Vuex\CSS Pre-processors）</li>
+<li>npm install  || yarn</li>
+<li>vue ui   //可视化界面<h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3></li>
+<li>cd my-page</li>
+<li>yarn serve || npm run serve // 看package.json<h3 id="npm与package-json"><a href="#npm与package-json" class="headerlink" title="npm与package.json"></a>npm与package.json</h3></li>
+<li>npm 是node 的包管理工具</li>
+<li><a href="https://npm-stat.com/charts.html?package=react&from=2019-08-01&to=2019-11-29" target="_blank" rel="noopener">npm-start  可以查看 一定时间范围内的包下载数据</a></li>
+<li>dependencies 生产环境</li>
+<li>devDependencies 开发环境<h4 id="npm常用命令"><a href="#npm常用命令" class="headerlink" title="npm常用命令"></a>npm常用命令</h4></li>
+<li>npm init  //生成 package.json 文件（需要手动选择配置）</li>
+<li>npm init -y // 生成 package.json 文件（使用默认配置）</li>
+<li>npm i || npm install  // 安装package.json 下的依赖包</li>
+<li>npm i xxx 安装相应的包 (dependencies)</li>
+<li>npm i xxx –save (dependencies)</li>
+<li>npm i xxx –save-dev (devDependencies)</li>
+<li>npm i -g xxx 全局安装</li>
+<li>npm run dev || npm run start</li>
+<li>npm home xxx //打开包的github  主页</li>
+<li>npm repo xxx //打开包的github  仓库</li>
+<li>yarn outdated xxx //查看包版本</li>
+<li>yarn check  //验证当前项目package.json 里的依赖版本和yarn的lock文件是否匹配</li>
+<li>npm publich || yarn pubilsh    发布版本到npmjs.com<h4 id="第三方插件配置"><a href="#第三方插件配置" class="headerlink" title="第三方插件配置"></a>第三方插件配置</h4></li>
+<li>package.json 文件中 browserslict 在不同的包之间共享目标浏览器和node版本</li>
+<li>“&gt; 1%”  // 表示包含所有使用率 &gt; 1% 浏览器</li>
+<li>“last 2 versions” // 表示包含浏览器最新的两个版本</li>
+<li>“not ie &lt;= 8” // 表示不包含 ie8 以及以下版本</li>
+<li>也可以单独写在 .browserslistrc 文件中</li>
+<li><a href="https://browserl.ist/" target="_blank" rel="noopener">官网可以搜索包含浏览器列表等待</a></li>
+<li>npx browserslist 命令查看适配的浏览器<h3 id="vue-add-命令"><a href="#vue-add-命令" class="headerlink" title="vue add 命令"></a>vue add 命令</h3></li>
+<li>是能安装Vue集成的包</li>
+<li>vue add router  // vue-router</li>
+<li>vue add vuex   //vuex<h3 id="webpack-的使用"><a href="#webpack-的使用" class="headerlink" title="webpack 的使用"></a>webpack 的使用</h3></li>
+<li>vue-cli 2.x 版本 会有相应的webpack配置文件</li>
+<li>vue-cli 3.x 版本 提供了 vue.config.js <h3 id="vue-config-js-的配置"><a href="#vue-config-js-的配置" class="headerlink" title="vue.config.js 的配置"></a>vue.config.js 的配置</h3></li>
+<li>vue-cli 3.x =&gt; 如果你构建的项目中没有该文件，那么你需要在根目录手动创建。<h4 id="baseUrl"><a href="#baseUrl" class="headerlink" title="baseUrl"></a>baseUrl</h4></li>
+<li>给项目地址增加二级目录</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// vue.config.js</span><br><span class="line">// localhost:8080/ =&gt; localhost:8080/vue/</span><br><span class="line">module.exports = &#123;</span><br><span class="line">    ...</span><br><span class="line">    </span><br><span class="line">    baseUrl: &apos;vue&apos;,</span><br><span class="line">    </span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>对应webpack 文件中output的publicPath<h4 id="outputDir"><a href="#outputDir" class="headerlink" title="outputDir"></a>outputDir</h4></li>
+<li>项目打包输出地址（默认是dist文件夹）<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// vue.config.js</span><br><span class="line">// 打包输出到output文件夹</span><br><span class="line">module.exports = &#123;</span><br><span class="line">    ...</span><br><span class="line">    </span><br><span class="line">    outputDir: &apos;output&apos;,</span><br><span class="line">    </span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>对应webpack 文件中output的path<h4 id="productionSourceMap"><a href="#productionSourceMap" class="headerlink" title="productionSourceMap"></a>productionSourceMap</h4></li>
+<li>是否为生产环境构建生成 source map,用于快速定位错误信息</li>
+<li>该配置会修改webpack中devtool项的值为source-map<h4 id="chainWebpack"><a href="#chainWebpack" class="headerlink" title="chainWebpack"></a>chainWebpack</h4></li>
+<li>集成的是webpack-chain <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">// 用于做相应的合并处理</span><br><span class="line">const merge = require(&apos;webpack-merge&apos;);</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">    ...</span><br><span class="line">    </span><br><span class="line">    // config 参数为已经解析好的 webpack 配置</span><br><span class="line">    chainWebpack: config =&gt; &#123;</span><br><span class="line">        config.module</span><br><span class="line">            .rule(&apos;images&apos;)</span><br><span class="line">            .use(&apos;url-loader&apos;)</span><br><span class="line">            .tap(options =&gt;</span><br><span class="line">                merge(options, &#123;</span><br><span class="line">                  limit: 5120,</span><br><span class="line">                &#125;)</span><br><span class="line">            )</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>这里需要注意的是我们使用了 webpack-merge 这一插件，该插件用于做 webpack 配置的合并处理，这样 options 下面的其他值就不会被覆盖或改变。</li>
+<li>以上操作我们可以成功修改webpack中module项里rules规则为图片下的url-loader值，将limit限制改为5M，修改狗的webpack配置如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    ...</span><br><span class="line">    </span><br><span class="line">    module: &#123;</span><br><span class="line">        rules: [</span><br><span class="line">            &#123;   </span><br><span class="line">                /* config.module.rule(&apos;images&apos;) */</span><br><span class="line">                test: /\.(png|jpe?g|gif|webp)(\?.*)?$/,</span><br><span class="line">                use: [</span><br><span class="line">                    /* config.module.rule(&apos;images&apos;).use(&apos;url-loader&apos;) */</span><br><span class="line">                    &#123;</span><br><span class="line">                        loader: &apos;url-loader&apos;,</span><br><span class="line">                        options: &#123;</span><br><span class="line">                            limit: 5120,</span><br><span class="line">                            name: &apos;img/[name].[hash:8].[ext]&apos;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                ]</span><br><span class="line">            &#125;</span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h4 id="configureWebpack"><a href="#configureWebpack" class="headerlink" title="configureWebpack"></a>configureWebpack</h4><ul>
+<li><p>除了上述使用 chainWebpack 来改变 webpack 内部配置外，我们还可以使用 configureWebpack 来进行修改，两者的不同点在于 chainWebpack 是链式修改，而 configureWebpack 更倾向于整体替换和修改。示例代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">// vue.config.js</span><br><span class="line">module.exports = &#123;</span><br><span class="line">    ...</span><br><span class="line">    </span><br><span class="line">    // config 参数为已经解析好的 webpack 配置</span><br><span class="line">    configureWebpack: config =&gt; &#123;</span><br><span class="line">        // config.plugins = []; // 这样会直接将 plugins 置空</span><br><span class="line">        </span><br><span class="line">        // 使用 return 一个对象会通过 webpack-merge 进行合并，plugins 不会置空</span><br><span class="line">        return &#123;</span><br><span class="line">            plugins: []</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>configureWebpack 可以直接是一个对象，也可以是一个函数，如果是对象它会直接使用 webpack-merge 对其进行合并处理，如果是函数，你可以直接使用其 config 参数来修改 webpack 中的配置，或者返回一个对象来进行 merge 处理。</p>
+</li>
+<li><p>vue inspect 查看修改狗的webpack完整配置</p>
+</li>
+<li><p>vue inspect plugins 值查看plugins的内容</p>
+</li>
+</ul>
+<h4 id="devServer"><a href="#devServer" class="headerlink" title="devServer"></a>devServer</h4><ul>
+<li>vue.config.js提供了devServer项用于配置webpack-dev-server的行为</li>
+<li>在运行yarn server 对应的 vue-cli-service serve 其实便是基于webpack-dev-server开启一个本地服务，其常用参数如下<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">// vue.config.js</span><br><span class="line">module.exports = &#123;</span><br><span class="line">    ...</span><br><span class="line">    </span><br><span class="line">    devServer: &#123;</span><br><span class="line">        open: true, // 是否自动打开浏览器页面</span><br><span class="line">        host: &apos;0.0.0.0&apos;, // 指定使用一个 host。默认是 localhost</span><br><span class="line">        port: 8080, // 端口地址</span><br><span class="line">        https: false, // 使用https提供服务</span><br><span class="line">        proxy: null, // string | Object 代理设置</span><br><span class="line">        </span><br><span class="line">        // 提供在服务器内部的其他中间件之前执行自定义中间件的能力</span><br><span class="line">        before: app =&gt; &#123;</span><br><span class="line">          // `app` 是一个 express 实例</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>当然除了以上参数，其支持所有的 webpack-dev-server 中的选项，比如 historyApiFallback 用于重写路由（会在后续的多页应用配置中讲解）、progress 将运行进度输出到控制台等</li>
+<li><a href="https://www.webpackjs.com/configuration/dev-server/" target="_blank" rel="noopener">具体可参考devServer</a><h4 id="默认插件介绍"><a href="#默认插件介绍" class="headerlink" title="默认插件介绍"></a>默认插件介绍</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">// vue-loader是 webpack 的加载器，允许你以单文件组件的格式编写 Vue 组件</span><br><span class="line">const VueLoaderPlugin = require(&apos;vue-loader/lib/plugin&apos;);</span><br><span class="line"></span><br><span class="line">// webpack 内置插件，用于创建在编译时可以配置的全局常量</span><br><span class="line">const &#123; DefinePlugin &#125; = require(&apos;webpack&apos;);</span><br><span class="line"></span><br><span class="line">// 用于强制所有模块的完整路径必需与磁盘上实际路径的确切大小写相匹配</span><br><span class="line">const CaseSensitivePathsPlugin = require(&apos;case-sensitive-paths-webpack-plugin&apos;);</span><br><span class="line"></span><br><span class="line">// 识别某些类型的 webpack 错误并整理，以提供开发人员更好的体验。</span><br><span class="line">const FriendlyErrorsPlugin = require(&apos;friendly-errors-webpack-plugin&apos;);</span><br><span class="line"></span><br><span class="line">// 将 CSS 提取到单独的文件中，为每个包含 CSS 的 JS 文件创建一个 CSS 文件</span><br><span class="line">const MiniCssExtractPlugin = require(&quot;mini-css-extract-plugin&quot;);</span><br><span class="line"></span><br><span class="line">// 用于在 webpack 构建期间优化、最小化 CSS文件</span><br><span class="line">const OptimizeCssnanoPlugin = require(&apos;optimize-css-assets-webpack-plugin&apos;);</span><br><span class="line"></span><br><span class="line">// webpack 内置插件，用于根据模块的相对路径生成 hash 作为模块 id, 一般用于生产环境</span><br><span class="line">const &#123; HashedModuleIdsPlugin &#125; = require(&apos;webpack&apos;);</span><br><span class="line"></span><br><span class="line">// 用于根据模板或使用加载器生成 HTML 文件</span><br><span class="line">const HtmlWebpackPlugin = require(&apos;html-webpack-plugin&apos;);</span><br><span class="line"></span><br><span class="line">// 用于在使用 html-webpack-plugin 生成的 html 中添加 &lt;link rel =&apos;preload&apos;&gt; 或 &lt;link rel =&apos;prefetch&apos;&gt;，有助于异步加载</span><br><span class="line">const PreloadPlugin = require(&apos;preload-webpack-plugin&apos;);</span><br><span class="line"></span><br><span class="line">// 用于将单个文件或整个目录复制到构建目录</span><br><span class="line">const CopyWebpackPlugin = require(&apos;copy-webpack-plugin&apos;);</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">    plugins: [</span><br><span class="line">        /* config.plugin(&apos;vue-loader&apos;) */</span><br><span class="line">        new VueLoaderPlugin(), </span><br><span class="line">        </span><br><span class="line">        /* config.plugin(&apos;define&apos;) */</span><br><span class="line">        new DefinePlugin(),</span><br><span class="line">        </span><br><span class="line">        /* config.plugin(&apos;case-sensitive-paths&apos;) */</span><br><span class="line">        new CaseSensitivePathsPlugin(),</span><br><span class="line">        </span><br><span class="line">        /* config.plugin(&apos;friendly-errors&apos;) */</span><br><span class="line">        new FriendlyErrorsWebpackPlugin(),</span><br><span class="line">        </span><br><span class="line">        /* config.plugin(&apos;extract-css&apos;) */</span><br><span class="line">        new MiniCssExtractPlugin(),</span><br><span class="line">        </span><br><span class="line">        /* config.plugin(&apos;optimize-css&apos;) */</span><br><span class="line">        new OptimizeCssnanoPlugin(),</span><br><span class="line">        </span><br><span class="line">        /* config.plugin(&apos;hash-module-ids&apos;) */</span><br><span class="line">        new HashedModuleIdsPlugin(),</span><br><span class="line">        </span><br><span class="line">        /* config.plugin(&apos;html&apos;) */</span><br><span class="line">        new HtmlWebpackPlugin(),</span><br><span class="line">        </span><br><span class="line">        /* config.plugin(&apos;preload&apos;) */</span><br><span class="line">        new PreloadPlugin(),</span><br><span class="line">        </span><br><span class="line">        /* config.plugin(&apos;copy&apos;) */</span><br><span class="line">        new CopyWebpackPlugin()</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>需要注意的是要区分 webpack 内置插件和第三方插件的区别，如果是内置插件则无需安装下载，而外部插件大家可以直接访问：<a href="http://www.npmjs.com/" target="_blank" rel="noopener">www.npmjs.com/</a> 搜索对应的插件</li>
+</ul>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://dongxin03.github.io/2019/11/25/vue%201%E3%80%81%E6%9E%84%E5%BB%BA%E5%9F%BA%E7%A1%80/" title="vue 1、构建基础" target="_blank" rel="external">http://dongxin03.github.io/2019/11/25/vue%201%E3%80%81%E6%9E%84%E5%BB%BA%E5%9F%BA%E7%A1%80/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/cofess" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/cofess" target="_blank"><span class="text-dark">董新</span><small class="ml-1x">web前端工程师 &amp; 颓废患者</small></a></h3>
+        <div>玉树临风风流倜傥英俊潇洒才高八斗貌似潘安号称一朵梨花压海棠人送绰号玉面小飞龙的web前端工程师</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2019/11/25/vue%202%E3%80%81router%7Cvuex%7Capi/" title="vue 2、router|vuex|api"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/11/25/Markdown%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/" title="Markdown基本语法"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        &copy; 2022 董新
+        
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: 'smplbtXMHut9YRSo2UkyPWLz-gzGzoHsz',
+    appKey: 'XyuLzfFfxysCEkGs3QAFOgzK',
+    placeholder: '等待你的评论...',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false});</script></body>
+</html>

@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>(Web)vue+声网-实现视频通话及调试 | 董新的博客</title>
+  <meta name="description" content="都是官方文档，仅供我自己巩固 1、准出 有个项目 vue(别的项目也行 react啥的) 注册声网，在控制台创建个应用获取 appID(必须)  2、开始创建 这段代码是视频的时候，会将视频插入的dom，可以把这段dom放到你要视频的页面中； videoIdList 这个变量是我自己定义的，主要是存放远端视频（别人的视频）的id local_stream 这个元素id是我要插入本地视频的地方，也可">
+<meta name="keywords" content="vue,声网">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(Web)vue+声网-实现视频通话及调试">
+<meta property="og:url" content="http:&#x2F;&#x2F;dongxin03.github.io&#x2F;2019&#x2F;12&#x2F;26&#x2F;%E5%AE%9E%E7%8E%B0%E8%A7%86%E9%A2%91%E9%80%9A%E8%AF%9D%E5%8F%8A%E8%B0%83%E8%AF%95&#x2F;index.html">
+<meta property="og:site_name" content="董新的博客">
+<meta property="og:description" content="都是官方文档，仅供我自己巩固 1、准出 有个项目 vue(别的项目也行 react啥的) 注册声网，在控制台创建个应用获取 appID(必须)  2、开始创建 这段代码是视频的时候，会将视频插入的dom，可以把这段dom放到你要视频的页面中； videoIdList 这个变量是我自己定义的，主要是存放远端视频（别人的视频）的id local_stream 这个元素id是我要插入本地视频的地方，也可">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-12-26T02:35:17.000Z">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://dongxin03.github.io/2019/12/26/%E5%AE%9E%E7%8E%B0%E8%A7%86%E9%A2%91%E9%80%9A%E8%AF%9D%E5%8F%8A%E8%B0%83%E8%AF%95/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="董新的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+</head>
+
+
+<body class="main-center theme-green" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/cofess" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">董新</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">web前端工程师 &amp; 颓废患者</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> 大沈阳</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <div> <img src="http://youxiangshijie.cn/hexo-zhuyila.png"/> <p>近期打算换工作，北京有没有需要前端的</p> </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/react/">react</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/react/%E4%B8%83%E7%89%9B%E4%BA%91/">七牛云</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/vue/">vue</a><span class="category-list-count">7</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/vue/%E5%A3%B0%E7%BD%91/">声网</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8A%80%E5%B7%A7/">技巧</a><span class="category-list-count">10</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8A%80%E5%B7%A7/html5/">html5</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AF%AD%E6%B3%95/">语法</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/" rel="tag">Markdown</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/api/" rel="tag">api</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/election/" rel="tag">election</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/https/" rel="tag">https</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/" rel="tag">js</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/" rel="tag">mac</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react/" rel="tag">react</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/router/" rel="tag">router</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vuex/" rel="tag">vuex</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/" rel="tag">web</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webSocket/" rel="tag">webSocket</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/" rel="tag">webpack</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BC%98%E5%8C%96/" rel="tag">优化</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A3%B0%E7%BD%91/" rel="tag">声网</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%80%E5%B7%A7/" rel="tag">技巧</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%84%E5%BB%BA/" rel="tag">构建</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AD%A3%E5%88%99/" rel="tag">正则</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%AD%E6%B3%95/" rel="tag">语法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%A1%B5%E9%9D%A2/" rel="tag">页面</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Markdown/" style="font-size: 13px;">Markdown</a> <a href="/tags/api/" style="font-size: 13.33px;">api</a> <a href="/tags/election/" style="font-size: 13px;">election</a> <a href="/tags/https/" style="font-size: 13px;">https</a> <a href="/tags/js/" style="font-size: 13px;">js</a> <a href="/tags/mac/" style="font-size: 13px;">mac</a> <a href="/tags/react/" style="font-size: 13px;">react</a> <a href="/tags/router/" style="font-size: 13px;">router</a> <a href="/tags/vue/" style="font-size: 14px;">vue</a> <a href="/tags/vuex/" style="font-size: 13px;">vuex</a> <a href="/tags/web/" style="font-size: 13.67px;">web</a> <a href="/tags/webSocket/" style="font-size: 13.33px;">webSocket</a> <a href="/tags/webpack/" style="font-size: 13px;">webpack</a> <a href="/tags/%E4%BC%98%E5%8C%96/" style="font-size: 13px;">优化</a> <a href="/tags/%E5%A3%B0%E7%BD%91/" style="font-size: 13px;">声网</a> <a href="/tags/%E6%8A%80%E5%B7%A7/" style="font-size: 13px;">技巧</a> <a href="/tags/%E6%9E%84%E5%BB%BA/" style="font-size: 13px;">构建</a> <a href="/tags/%E6%AD%A3%E5%88%99/" style="font-size: 13px;">正则</a> <a href="/tags/%E8%AF%AD%E6%B3%95/" style="font-size: 13px;">语法</a> <a href="/tags/%E9%A1%B5%E9%9D%A2/" style="font-size: 13px;">页面</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">六月 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a><span class="archive-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2022/06/10/%E5%BC%80%E5%A7%8B%E5%AD%A6%E4%B9%A0vue/" class="title">开始学习vue</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-06-10T10:30:06.000Z" itemprop="datePublished">2022-06-10</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E6%8A%80%E5%B7%A7/">技巧</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/12/03/%E8%8A%82%E6%B5%81/" class="title">节流</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-12-03T07:42:14.000Z" itemprop="datePublished">2020-12-03</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E6%8A%80%E5%B7%A7/">技巧</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/12/03/%E5%B8%B8%E7%94%A8%E7%9A%84%E4%B8%80%E4%BA%9B%E6%AD%A3%E5%88%99/" class="title">常用的一些正则</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-12-03T07:32:14.000Z" itemprop="datePublished">2020-12-03</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E6%8A%80%E5%B7%A7/">技巧</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/11/18/%E5%8E%9F%E7%94%9FJS%E4%BD%BF%E7%94%A8Blob%E5%AF%BC%E5%87%BAcsv%E6%96%87%E4%BB%B6/" class="title">原生JS使用Blob导出csv文件</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-11-18T12:09:38.000Z" itemprop="datePublished">2020-11-18</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E6%8A%80%E5%B7%A7/">技巧</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/08/28/webpack4.0%E6%95%B4%E7%90%86/" class="title">webpack 4.0 整理</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-08-28T02:06:18.000Z" itemprop="datePublished">2020-08-28</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="vue-实现视频通话及调试" class="article article-type-vue" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      (Web)vue+声网-实现视频通话及调试
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/12/26/%E5%AE%9E%E7%8E%B0%E8%A7%86%E9%A2%91%E9%80%9A%E8%AF%9D%E5%8F%8A%E8%B0%83%E8%AF%95/" class="article-date">
+	  <time datetime="2019-12-26T01:33:26.000Z" itemprop="datePublished">2019-12-26</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/vue/">vue</a>►<a class="article-category-link" href="/categories/vue/%E5%A3%B0%E7%BD%91/">声网</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/vue/" rel="tag">vue</a>, <a class="article-tag-link" href="/tags/%E5%A3%B0%E7%BD%91/" rel="tag">声网</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/12/26/%E5%AE%9E%E7%8E%B0%E8%A7%86%E9%A2%91%E9%80%9A%E8%AF%9D%E5%8F%8A%E8%B0%83%E8%AF%95/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 3.8k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 18(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p><strong>都是官方文档，仅供我自己巩固</strong></p>
+<h2 id="1、准出"><a href="#1、准出" class="headerlink" title="1、准出"></a>1、准出</h2><ul>
+<li>有个项目 vue(别的项目也行 react啥的)</li>
+<li>注册声网，在控制台创建个应用获取 <strong>appID</strong>(必须)</li>
+</ul>
+<h2 id="2、开始创建"><a href="#2、开始创建" class="headerlink" title="2、开始创建"></a>2、开始创建</h2><ul>
+<li>这段代码是视频的时候，会将视频插入的dom，可以把这段dom放到你要视频的页面中；</li>
+<li>videoIdList 这个变量是我自己定义的，主要是存放远端视频（别人的视频）的id</li>
+<li>local_stream 这个元素id是我要插入本地视频的地方，也可以叫别的名字；（下面会讲）</li>
+<li>remote_video_ + 远端视频id ，这个元素id是我要插入远端视频的地方，也可以叫别的名字；（下面会讲）</li>
+<li><em>注意 这两个最好包在一个id为video的元素下  不然总会插入到别的地方 （我也不会调  哈哈哈哈）*</em><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&apos;video&apos; :style=&quot;&#123;height:&apos;100%&apos;,width:&apos;100%&apos;&#125;&quot;&gt;</span><br><span class="line">    &lt;div class=&quot;video-view review-right-video&quot;&gt;</span><br><span class="line">        &lt;div id=&quot;local_stream&quot; :style=&quot;&#123;height:&apos;100%&apos;,width:&apos;100%&apos;&#125;&quot;&gt;&lt;/div&gt; // 本地的视频会插入到这个ID下</span><br><span class="line">        &lt;div id=&quot;local_video_info&quot; class=&quot;video-profile hide&quot;&gt;&lt;/div&gt;</span><br><span class="line">        &lt;div id=&quot;video_autoplay_local&quot; class=&quot;autoplay-fallback hide&quot;&gt;&lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    &lt;div </span><br><span class="line">        v-for=&quot;item in videoIdList&quot; :key=&quot;item&quot; </span><br><span class="line">        :id=&quot;`remote_video_panel_`+item&quot;  // 远端的视频会插入到这个id 下  </span><br><span class="line">        :class=&quot;[&apos;video-view review-center-video&apos;,imageUrl ? &apos;active&apos; : &apos;&apos;]&quot;</span><br><span class="line">    &gt;</span><br><span class="line">        &lt;div </span><br><span class="line">            :style=&quot;&#123;height:&apos;100%&apos;,width:&apos;100%&apos;&#125;&quot; </span><br><span class="line">            :id=&quot;`remote_video_`+item&quot; </span><br><span class="line">        &gt;&lt;/div&gt;</span><br><span class="line">        &lt;div :id=&quot;`remote_video_info_`+item&quot; class=&quot;video-profile hide&quot;&gt;&lt;/div&gt;</span><br><span class="line">        &lt;div :id=&quot;`video_autoplay_`+item&quot; class=&quot;autoplay-fallback hide&quot;&gt;&lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="3、对接声网"><a href="#3、对接声网" class="headerlink" title="3、对接声网"></a>3、对接声网</h2><ul>
+<li><p><strong>安装</strong></p>
+</li>
+<li><p><code>npm install agora-rtc-sdk</code> ;</p>
+</li>
+<li><p>也可以使用CDN</p>
+</li>
+<li><p>CDN <code>&lt;script src=&quot;https://cdn.agora.io/sdk/release/AgoraRTCSDK-3.0.0.js&quot;&gt;&lt;/script&gt;</code>;</p>
+</li>
+<li><p><strong>引入</strong></p>
+</li>
+<li><p><code>import AgoraRTC from &#39;agora-rtc-sdk&#39;</code>;</p>
+</li>
+</ul>
+<h2 id="4、整个声网的文件"><a href="#4、整个声网的文件" class="headerlink" title="4、整个声网的文件"></a>4、整个声网的文件</h2><p>*<br>*<br>*</p>
+<ul>
+<li><strong>完整的代码在最下面，直接看代码就行</strong></li>
+<li></li>
+<li></li>
+<li></li>
+<li>我建了一个文件 叫 agoraRTCfunct（都是网易翻译来的）</li>
+</ul>
+<p>1.引入 sdk<br><code>import AgoraRTC from &#39;agora-rtc-sdk&#39;</code>;<br>2.设置两个参数变量<br><strong>主要的就是appID</strong><br><strong>频道是自己定义的，就像设置一个房间，别人会根据你的频道号加入到你的视频当中</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">const rtc = &#123;</span><br><span class="line">    client: null,</span><br><span class="line">    joined: false, //是否已经加入频道</span><br><span class="line">    published: false, // 是否已经发布</span><br><span class="line">    localStream: null,</span><br><span class="line">    remoteStreams: [],</span><br><span class="line">    params: &#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">const  option = &#123;</span><br><span class="line">    appID: &quot;f3e69727bee94580be65eb6193a72b89&quot;,</span><br><span class="line">    channel: &quot;123&quot;, // 频道</span><br><span class="line">    uid: 1123, // 用户id</span><br><span class="line">    token: &quot;&quot; // 手机app上用的  没用</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>3.开始声网</p>
+<ul>
+<li>开始监听的代码在下面 ， 监听视频过程中的很多事件</li>
+<li>创建本地流的代码也在下面<ul>
+<li>主要是创建了一个频道，</li>
+<li>初始化一个频道</li>
+<li>加入到这个频道</li>
+</ul>
+</li>
+<li><em>在页面中引入 import agora from ‘./agoraRTCfunct.js’; 创建的这个文件*</em></li>
+<li><em>thet是vue页面的this,我在页面初始化（mounted）的时候调用了 agora.agoraFunction(this); 传入了this*</em></li>
+<li>因为有用户加入的时候会用到<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">const agoraFunction = function(thet)&#123;</span><br><span class="line">    if(rtc.joined)&#123;</span><br><span class="line">        Notification.info(&quot;您已经加入频道&quot;);</span><br><span class="line">        return;</span><br><span class="line">    &#125;;</span><br><span class="line">    // 创建客户端</span><br><span class="line">    rtc.client = AgoraRTC.createClient(&#123;mode: &quot;live&quot;, codec: &quot;vp8&quot;&#125;);</span><br><span class="line">    rtc.params = &#123;mode:&apos;live&apos;, codec: &apos;vp8&apos;&#125;; // 赋值输入框的值</span><br><span class="line">    Listening(thet);                  // 开始监听</span><br><span class="line">    // 初始化</span><br><span class="line">    rtc.client.init(option.appID, function () &#123;</span><br><span class="line">        console.log(&quot;初始化成功&quot;);</span><br><span class="line">        //加入频道</span><br><span class="line">        rtc.client.join(option.token ? option.token : null, option.channel, option.uid ? +option.uid : null, function (uid) &#123;</span><br><span class="line">            console.log(&quot;成功----频道号码: &quot; + option.channel + &quot;你的id: &quot; + uid);</span><br><span class="line">            rtc.joined = true;</span><br><span class="line">            rtc.params.uid = uid;   // 获取到自己的id</span><br><span class="line">            createStream();           // 创建本地流</span><br><span class="line">        &#125;, function(err) &#123;</span><br><span class="line">            console.error(&quot;加入频道失败&quot;, err)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;, (err) =&gt; &#123;</span><br><span class="line">    console.error(err);</span><br><span class="line">    &#125;); </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>4.创建本地流（就是打开摄像头能看到自己）<br><strong>重要的是</strong></p>
+<ul>
+<li>rtc.localStream.play(‘local_stream’); // 插入到这个id中</li>
+<li>local_stream 这个是我自己定义的ID  本地的视频会插入到这个元素中</li>
+<li>发布本地流是把，本地的视频推到远端 、要不别人看不见<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">const createStream = function()&#123; //创建本地流</span><br><span class="line">     // 创建本地流</span><br><span class="line">     rtc.localStream = AgoraRTC.createStream(&#123;</span><br><span class="line">        streamID: rtc.params.uid, // 在上一步获取到的自己的视频id</span><br><span class="line">        audio: true,</span><br><span class="line">        video: true,</span><br><span class="line">        screen: false, // 是不是需要共享屏幕   这个只在谷歌浏览器有用   不咋好使</span><br><span class="line">    &#125;);</span><br><span class="line">    // 初始化本地流</span><br><span class="line">    rtc.localStream.setVideoProfile(&quot;360p_1&quot;); //  640X360  15  400 视频清晰度</span><br><span class="line">    rtc.localStream.init(function () &#123;</span><br><span class="line">        console.log(&quot;本地流-初始化-成功&quot;,rtc.localStream);</span><br><span class="line">        // 发布本地流</span><br><span class="line">        rtc.localStream.play(&apos;local_stream&apos;); // 插入到这个id中</span><br><span class="line">        publish(); // 发布本地流</span><br><span class="line">    &#125;, function (err) &#123;</span><br><span class="line">        console.error(&quot;本地流-初始化-失败&quot;, err);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><em>发布根底流*</em><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">const publish =  function () &#123; // 发布本地流</span><br><span class="line">    if (!rtc.client) &#123;</span><br><span class="line">      Notification.info(&quot;您还没加入频道&quot;);</span><br><span class="line">      return;</span><br><span class="line">    &#125;</span><br><span class="line">    if (rtc.published) &#123;</span><br><span class="line">        Notification.info(&quot;您已经发布频道&quot;);</span><br><span class="line">      return;</span><br><span class="line">    &#125;</span><br><span class="line">    const oldState = rtc.published;</span><br><span class="line"></span><br><span class="line">    // publish localStream</span><br><span class="line">    rtc.client.publish(rtc.localStream, function (err) &#123;</span><br><span class="line">      rtc.published = oldState;</span><br><span class="line">      console.log(&quot;publish failed&quot;);</span><br><span class="line">      Toast.error(&quot;publish failed&quot;)</span><br><span class="line">      console.error(err);</span><br><span class="line">    &#125;)</span><br><span class="line">    Notification.success(&quot;发布频道成功&quot;);</span><br><span class="line">    rtc.published = true</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>5.监听视频过程中的事件</p>
+<ul>
+<li>重要的是有别人加入你的视频中的事件（和离开）</li>
+<li><em>主要是有用户加入频道的时候，要及时创建一个指定的对方id的元素*</em></li>
+<li>remoteStream.play(“remote_video_” + id); // 插入到 id为 remote_video_ + id 元素中</li>
+<li>“remote_video_” + id  这个就是我定义的元素， 对方的视频会插入到这里<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line">const Listening = function(thet)&#123; // 订阅事件</span><br><span class="line">    // ---- 订阅开始</span><br><span class="line">    rtc.client.on(&quot;error&quot;, (err) =&gt; &#123;</span><br><span class="line">        console.log(&quot;===&gt;&quot;,err)</span><br><span class="line">    &#125;);</span><br><span class="line">    rtc.client.on(&quot;peer-leave&quot;, function(evt) &#123; // 有用户离开时</span><br><span class="line">        var uid = evt.uid;</span><br><span class="line">        var reason = evt.reason; // 离线原因 Quit -- 主动离开  ServerTimeOut -- 超时掉线（也有可能是主动离开）</span><br><span class="line">        if (uid != rtc.params.uid) &#123;</span><br><span class="line">            thet.deleteView(uid);</span><br><span class="line">        &#125;;</span><br><span class="line">        Notification.info(&quot;用户离开&quot;);</span><br><span class="line">        console.log(&quot;用户离线&quot; , uid, &quot;reason: &quot;, reason);</span><br><span class="line">    &#125;);</span><br><span class="line">    rtc.client.on(&quot;stream-published&quot;, function(evt)&#123; // 发布视频流本地触发</span><br><span class="line">        var remoteStream = evt.stream;</span><br><span class="line">        var id = remoteStream.getId();</span><br><span class="line">        thet.myId = id;</span><br><span class="line">    &#125;);</span><br><span class="line">    rtc.client.on(&quot;stream-added&quot;, function (evt) &#123;   //有远程流加入时</span><br><span class="line">        var remoteStream = evt.stream;</span><br><span class="line">        var id = remoteStream.getId();</span><br><span class="line">        if (id !== rtc.params.uid) &#123;</span><br><span class="line">            rtc.client.subscribe(remoteStream, function (err) &#123; // 订阅加入的远程端视频</span><br><span class="line">                console.log(&quot;订阅远程端视频失败&quot;, err);</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;;</span><br><span class="line">        console.log(&apos;加入的远程端视频流: &apos;, id);</span><br><span class="line">    &#125;);</span><br><span class="line">    rtc.client.on(&quot;stream-subscribed&quot;, function (evt) &#123; //订阅远程流</span><br><span class="line">        var remoteStream = evt.stream;</span><br><span class="line">        var id = remoteStream.getId();</span><br><span class="line">        rtc.remoteStreams.push(remoteStream); // 不知道干啥的</span><br><span class="line">        Notification.success(&quot;用户加入&quot;+id);</span><br><span class="line">        thet.addView(id);</span><br><span class="line">        setTimeout(()=&gt;&#123; // vue创建元素 是异步的   （一会处理）</span><br><span class="line">            remoteStream.play(&quot;remote_video_&quot; + id); // 插入到 id为 remote_video_ + id 元素中</span><br><span class="line">        &#125;,300);</span><br><span class="line">        console.log(&apos;接收到的远程端视频: &apos;, id);</span><br><span class="line">    &#125;);</span><br><span class="line">    rtc.client.on(&quot;stream-removed&quot;, function (evt) &#123; // 对方取消发布</span><br><span class="line">        var remoteStream = evt.stream;</span><br><span class="line">        var id = remoteStream.getId();</span><br><span class="line">        remoteStream.stop(&quot;remote_video_&quot; + id);</span><br><span class="line">        rtc.remoteStreams = rtc.remoteStreams.filter(function (stream) &#123;</span><br><span class="line">          return stream.getId() !== id;</span><br><span class="line">        &#125;)</span><br><span class="line">        thet.deleteView(id);</span><br><span class="line">        console.log(&apos;stream-removed remote-uid: &apos;, id);</span><br><span class="line">    &#125;);</span><br><span class="line">    rtc.client.on(&quot;onTokenPrivilegeWillExpire&quot;, function()&#123; // token过期前30秒调用</span><br><span class="line">        // client.renewToken(token);</span><br><span class="line">        console.log(&quot;token即将过期&quot;)</span><br><span class="line">    &#125;);</span><br><span class="line">    rtc.client.on(&quot;onTokenPrivilegeDidExpire&quot;, function()&#123; // token已经失效</span><br><span class="line">        // client.renewToken(token);</span><br><span class="line">        console.log(&quot;token已经失效&quot;);</span><br><span class="line">    &#125;);</span><br><span class="line">    rtc.client.on(&quot;network-quality&quot;, function(stats) &#123; // 本地用户的网络质量</span><br><span class="line">        console.log(&quot;下行&quot;, callQuality[stats.downlinkNetworkQuality]);</span><br><span class="line">        console.log(&quot;上行&quot;, callQuality[stats.uplinkNetworkQuality]);</span><br><span class="line">    &#125;); </span><br><span class="line">    rtc.client.on(&quot;mute-audio&quot;, function(evt) &#123; // 对方关闭了语音</span><br><span class="line">        var uid = evt.uid;</span><br><span class="line">        Notification.info(&quot;用户&quot;+uid+&quot;已静音&quot;);</span><br><span class="line">        console.log(&quot;mute audio:&quot; + uid);</span><br><span class="line">        //alert(&quot;mute audio:&quot; + uid);</span><br><span class="line">    &#125;);</span><br><span class="line">    rtc.client.on(&quot;unmute-audio&quot;, function (evt) &#123; // 对方打开了语音</span><br><span class="line">        var uid = evt.uid;</span><br><span class="line">        Notification.info(&quot;用户&quot;+uid+&quot;打来了语音&quot;);</span><br><span class="line">        console.log(&quot;unmute audio:&quot; + uid);</span><br><span class="line">    &#125;);</span><br><span class="line">    rtc.client.on(&quot;mute-video&quot;, function (evt) &#123; // 对方关闭摄像头</span><br><span class="line">        var uid = evt.uid;</span><br><span class="line">        Notification.info(&quot;用户&quot;+uid+&quot;关闭了摄像头&quot;);</span><br><span class="line">        console.log(&quot;mute video&quot; + uid);</span><br><span class="line">        //alert(&quot;mute video:&quot; + uid);</span><br><span class="line">    &#125;);</span><br><span class="line">    rtc.client.on(&quot;unmute-video&quot;, function (evt) &#123; // 对方打开了摄像头</span><br><span class="line">        var uid = evt.uid;</span><br><span class="line">        Notification.info(&quot;用户&quot;+uid+&quot;打开了了摄像头&quot;);</span><br><span class="line">        console.log(&quot;unmute video:&quot; + uid);</span><br><span class="line">    &#125;);</span><br><span class="line">    // ---- 订阅结束</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></li>
+<li>我在监听到有用户加入的时候，把用户的id插入到一个数组里，循环渲染出了有特定id的元素（thet.addView(id);）</li>
+<li>我在监听到有用户离开的时候，把用户的id从这个数组中去除掉，在循环渲染出了有特定id的元素（thet.deleteView(id);）<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">addView(id)&#123;</span><br><span class="line">    if(id == this.myId || this.videoIdList.indexOf(id) != -1) return;</span><br><span class="line">    const list = this.videoIdList;</span><br><span class="line">    list.push(id);</span><br><span class="line">    this.videoIdList = list;</span><br><span class="line">&#125;,</span><br><span class="line">deleteView(id)&#123;</span><br><span class="line">    const index = this.videoIdList.indexOf(id);</span><br><span class="line">    const list = this.videoIdList;</span><br><span class="line">    list.splice(index,1);</span><br><span class="line">    this.videoIdList = list;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p><strong>其他的就没有比较重要的了</strong></p>
+<ul>
+<li>导出了这几个方法<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">export default &#123;</span><br><span class="line">    rtc, // 参数</span><br><span class="line">    option, // 参数</span><br><span class="line">    agoraFunction, // 声网开始的方法  创建  初始化 加入频道 </span><br><span class="line">    publish, // 发布本地流</span><br><span class="line">    unpublish, // 停止发布本地流</span><br><span class="line">    leave, // 离开频道</span><br><span class="line">    getDevices, // 获取可用的 摄像头 麦克风</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></li>
+<li><em>完整的代码*</em><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br></pre></td><td class="code"><pre><span class="line">import AgoraRTC from &apos;agora-rtc-sdk&apos;;</span><br><span class="line">import &#123;Notification&#125; from &apos;element-ui&apos;;</span><br><span class="line"></span><br><span class="line">const callQuality = &#123; // 通话质量</span><br><span class="line">    0:&quot;质量未知&quot;,</span><br><span class="line">    1:&quot;质量极好&quot;,</span><br><span class="line">    2:&quot;用户主观感觉和极好差不多，但码率可能略低于极好&quot;,</span><br><span class="line">    3:&quot;用户主观感受有瑕疵但不影响沟通&quot;,</span><br><span class="line">    4:&quot;勉强能沟通但不顺畅&quot;,</span><br><span class="line">    5:&quot;网络质量非常差，基本不能沟通&quot;,</span><br><span class="line">    6:&quot;网络连接断开，完全无法沟通&quot;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const rtc = &#123;</span><br><span class="line">    client: null,</span><br><span class="line">    joined: false, //是否已经加入频道</span><br><span class="line">    published: false, // 是否已经发布</span><br><span class="line">    localStream: null,</span><br><span class="line">    remoteStreams: [],</span><br><span class="line">    params: &#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">const  option = &#123;</span><br><span class="line">    appID: &quot;f3e69727bee94580be65eb6193a72b89&quot;,</span><br><span class="line">    channel: &quot;123&quot;, // 频道</span><br><span class="line">    uid: 1123, // 用户id</span><br><span class="line">    token: &quot;&quot; // 手机app上用的  没用</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">const leave = function () &#123; // 离开频道 </span><br><span class="line">    if (!rtc.client) &#123;</span><br><span class="line">        Notification.info(&quot;您还没加入频道&quot;);</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    if (!rtc.joined) &#123;</span><br><span class="line">        Notification.info(&quot;您还没加入频道(2)&quot;);</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    rtc.client.leave(function () &#123;</span><br><span class="line">        rtc.localStream.stop();</span><br><span class="line">        rtc.localStream.close();</span><br><span class="line">        while (rtc.remoteStreams.length &gt; 0) &#123;</span><br><span class="line">            var stream = rtc.remoteStreams.shift();</span><br><span class="line">            var id = stream.getId();</span><br><span class="line">            stream.stop();</span><br><span class="line">            removeView(id);</span><br><span class="line">        &#125;</span><br><span class="line">        rtc.localStream = null;</span><br><span class="line">        rtc.remoteStreams = [];</span><br><span class="line">        rtc.client = null;</span><br><span class="line">        rtc.published = false;</span><br><span class="line">        rtc.joined = false;</span><br><span class="line">        Notification.info(&quot;离开频道成功&quot;);</span><br><span class="line">    &#125;, function (err) &#123;</span><br><span class="line">        Notification.error(&quot;离开频道失败&quot;);</span><br><span class="line">        console.error(err);</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function unpublish (rtc) &#123; // 取消发布本地流</span><br><span class="line">    if (!rtc.client) &#123;</span><br><span class="line">        Notification.info(&quot;您还没加入频道&quot;);</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    if (!rtc.published) &#123;</span><br><span class="line">        Toast.error(&quot;您已经发布频道&quot;);</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    var oldState = rtc.published;</span><br><span class="line">    rtc.client.unpublish(rtc.localStream, function (err) &#123;</span><br><span class="line">      rtc.published = oldState;</span><br><span class="line">      console.error(err);</span><br><span class="line">    &#125;)</span><br><span class="line">    Notification.info(&quot;取消发布成功&quot;);</span><br><span class="line">    rtc.published = false;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const createStream = function()&#123; //创建本地流</span><br><span class="line">     // 创建本地流</span><br><span class="line">     rtc.localStream = AgoraRTC.createStream(&#123;</span><br><span class="line">        streamID: rtc.params.uid,</span><br><span class="line">        audio: true,</span><br><span class="line">        video: true,</span><br><span class="line">        screen: false,</span><br><span class="line">    &#125;);</span><br><span class="line">    // 初始化本地流</span><br><span class="line">    rtc.localStream.setVideoProfile(&quot;360p_1&quot;); //  640X360  15  400</span><br><span class="line">    rtc.localStream.init(function () &#123;</span><br><span class="line">        console.log(&quot;本地流-初始化-成功&quot;,rtc.localStream);</span><br><span class="line">        // 发布本地流</span><br><span class="line">        rtc.localStream.play(&apos;local_stream&apos;); // 插入到这个id中</span><br><span class="line">        publish(); // 发布本地流</span><br><span class="line">    &#125;, function (err) &#123;</span><br><span class="line">        console.error(&quot;本地流-初始化-失败&quot;, err);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const publish =  function () &#123; // 发布本地流</span><br><span class="line">    if (!rtc.client) &#123;</span><br><span class="line">      Notification.info(&quot;您还没加入频道&quot;);</span><br><span class="line">      return;</span><br><span class="line">    &#125;</span><br><span class="line">    if (rtc.published) &#123;</span><br><span class="line">        Notification.info(&quot;您已经发布频道&quot;);</span><br><span class="line">      return;</span><br><span class="line">    &#125;</span><br><span class="line">    const oldState = rtc.published;</span><br><span class="line"></span><br><span class="line">    // publish localStream</span><br><span class="line">    rtc.client.publish(rtc.localStream, function (err) &#123;</span><br><span class="line">      rtc.published = oldState;</span><br><span class="line">      console.log(&quot;publish failed&quot;);</span><br><span class="line">      Toast.error(&quot;publish failed&quot;)</span><br><span class="line">      console.error(err);</span><br><span class="line">    &#125;)</span><br><span class="line">    Notification.success(&quot;发布频道成功&quot;);</span><br><span class="line">    rtc.published = true</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const Listening = function(thet)&#123; // 订阅事件</span><br><span class="line">    // ---- 订阅开始</span><br><span class="line">    rtc.client.on(&quot;error&quot;, (err) =&gt; &#123;</span><br><span class="line">        console.log(&quot;===&gt;&quot;,err)</span><br><span class="line">    &#125;);</span><br><span class="line">    rtc.client.on(&quot;peer-leave&quot;, function(evt) &#123; // 有用户离开时</span><br><span class="line">        var uid = evt.uid;</span><br><span class="line">        var reason = evt.reason; // 离线原因 Quit -- 主动离开  ServerTimeOut -- 超时掉线（也有可能是主动离开）</span><br><span class="line">        if (uid != rtc.params.uid) &#123;</span><br><span class="line">            thet.deleteView(uid);</span><br><span class="line">        &#125;;</span><br><span class="line">        Notification.info(&quot;用户离开&quot;);</span><br><span class="line">        console.log(&quot;用户离线&quot; , uid, &quot;reason: &quot;, reason);</span><br><span class="line">    &#125;);</span><br><span class="line">    rtc.client.on(&quot;stream-published&quot;, function(evt)&#123; // 发布视频流本地触发</span><br><span class="line">        var remoteStream = evt.stream;</span><br><span class="line">        var id = remoteStream.getId();</span><br><span class="line">        thet.myId = id;</span><br><span class="line">    &#125;);</span><br><span class="line">    rtc.client.on(&quot;stream-added&quot;, function (evt) &#123;   //有远程流加入时</span><br><span class="line">        var remoteStream = evt.stream;</span><br><span class="line">        var id = remoteStream.getId();</span><br><span class="line">        if (id !== rtc.params.uid) &#123;</span><br><span class="line">            rtc.client.subscribe(remoteStream, function (err) &#123; // 订阅加入的远程端视频</span><br><span class="line">                console.log(&quot;订阅远程端视频失败&quot;, err);</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;;</span><br><span class="line">        console.log(&apos;加入的远程端视频流: &apos;, id);</span><br><span class="line">    &#125;);</span><br><span class="line">    rtc.client.on(&quot;stream-subscribed&quot;, function (evt) &#123; //订阅远程流</span><br><span class="line">        var remoteStream = evt.stream;</span><br><span class="line">        var id = remoteStream.getId();</span><br><span class="line">        rtc.remoteStreams.push(remoteStream); // 不知道干啥的</span><br><span class="line">        Notification.success(&quot;用户加入&quot;+id);</span><br><span class="line">        thet.addView(id);</span><br><span class="line">        setTimeout(()=&gt;&#123; // vue创建元素 是异步的   （一会处理）</span><br><span class="line">            remoteStream.play(&quot;remote_video_&quot; + id); // 插入到 id为 remote_video_ + id 元素中</span><br><span class="line">        &#125;,300);</span><br><span class="line">        console.log(&apos;接收到的远程端视频: &apos;, id);</span><br><span class="line">    &#125;);</span><br><span class="line">    rtc.client.on(&quot;stream-removed&quot;, function (evt) &#123; // 对方取消发布</span><br><span class="line">        var remoteStream = evt.stream;</span><br><span class="line">        var id = remoteStream.getId();</span><br><span class="line">        remoteStream.stop(&quot;remote_video_&quot; + id);</span><br><span class="line">        rtc.remoteStreams = rtc.remoteStreams.filter(function (stream) &#123;</span><br><span class="line">          return stream.getId() !== id;</span><br><span class="line">        &#125;)</span><br><span class="line">        thet.deleteView(id);</span><br><span class="line">        console.log(&apos;stream-removed remote-uid: &apos;, id);</span><br><span class="line">    &#125;);</span><br><span class="line">    rtc.client.on(&quot;onTokenPrivilegeWillExpire&quot;, function()&#123; // token过期前30秒调用</span><br><span class="line">        // client.renewToken(token);</span><br><span class="line">        console.log(&quot;token即将过期&quot;)</span><br><span class="line">    &#125;);</span><br><span class="line">    rtc.client.on(&quot;onTokenPrivilegeDidExpire&quot;, function()&#123; // token已经失效</span><br><span class="line">        // client.renewToken(token);</span><br><span class="line">        console.log(&quot;token已经失效&quot;);</span><br><span class="line">    &#125;);</span><br><span class="line">    rtc.client.on(&quot;network-quality&quot;, function(stats) &#123; // 本地用户的网络质量</span><br><span class="line">        console.log(&quot;下行&quot;, callQuality[stats.downlinkNetworkQuality]);</span><br><span class="line">        console.log(&quot;上行&quot;, callQuality[stats.uplinkNetworkQuality]);</span><br><span class="line">    &#125;); </span><br><span class="line">    rtc.client.on(&quot;mute-audio&quot;, function(evt) &#123; // 对方关闭了语音</span><br><span class="line">        var uid = evt.uid;</span><br><span class="line">        Notification.info(&quot;用户&quot;+uid+&quot;已静音&quot;);</span><br><span class="line">        console.log(&quot;mute audio:&quot; + uid);</span><br><span class="line">        //alert(&quot;mute audio:&quot; + uid);</span><br><span class="line">    &#125;);</span><br><span class="line">    rtc.client.on(&quot;unmute-audio&quot;, function (evt) &#123; // 对方打开了语音</span><br><span class="line">        var uid = evt.uid;</span><br><span class="line">        Notification.info(&quot;用户&quot;+uid+&quot;打来了语音&quot;);</span><br><span class="line">        console.log(&quot;unmute audio:&quot; + uid);</span><br><span class="line">    &#125;);</span><br><span class="line">    rtc.client.on(&quot;mute-video&quot;, function (evt) &#123; // 对方关闭摄像头</span><br><span class="line">        var uid = evt.uid;</span><br><span class="line">        Notification.info(&quot;用户&quot;+uid+&quot;关闭了摄像头&quot;);</span><br><span class="line">        console.log(&quot;mute video&quot; + uid);</span><br><span class="line">        //alert(&quot;mute video:&quot; + uid);</span><br><span class="line">    &#125;);</span><br><span class="line">    rtc.client.on(&quot;unmute-video&quot;, function (evt) &#123; // 对方打开了摄像头</span><br><span class="line">        var uid = evt.uid;</span><br><span class="line">        Notification.info(&quot;用户&quot;+uid+&quot;打开了了摄像头&quot;);</span><br><span class="line">        console.log(&quot;unmute video:&quot; + uid);</span><br><span class="line">    &#125;);</span><br><span class="line">    // ---- 订阅结束</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// 开始声网</span><br><span class="line">const agoraFunction = function(thet)&#123;</span><br><span class="line">    // 创建客户端</span><br><span class="line">    if(rtc.joined)&#123;</span><br><span class="line">        Notification.info(&quot;您已经加入频道&quot;);</span><br><span class="line">        return;</span><br><span class="line">    &#125;;</span><br><span class="line">    rtc.client = AgoraRTC.createClient(&#123;mode: &quot;live&quot;, codec: &quot;vp8&quot;&#125;);</span><br><span class="line">    rtc.params = &#123;mode:&apos;live&apos;, codec: &apos;vp8&apos;&#125;; // 赋值输入框的值</span><br><span class="line">    Listening(thet); // 开始监听</span><br><span class="line">    // 初始化</span><br><span class="line">    rtc.client.init(option.appID, function () &#123;</span><br><span class="line">        console.log(&quot;初始化成功&quot;);</span><br><span class="line">        //加入频道</span><br><span class="line">        rtc.client.join(option.token ? option.token : null, option.channel, option.uid ? +option.uid : null, function (uid) &#123;</span><br><span class="line">            console.log(&quot;成功----频道号码: &quot; + option.channel + &quot;你的id: &quot; + uid);</span><br><span class="line">            rtc.joined = true;</span><br><span class="line">            rtc.params.uid = uid;</span><br><span class="line">            createStream(); // 创建本地流</span><br><span class="line">        &#125;, function(err) &#123;</span><br><span class="line">            console.error(&quot;加入频道失败&quot;, err)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;, (err) =&gt; &#123;</span><br><span class="line">    console.error(err);</span><br><span class="line">    &#125;); </span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">const getDevices =  function (next) &#123; // 获取音视频设备信息</span><br><span class="line">    AgoraRTC.getDevices(function (items) &#123;</span><br><span class="line">        items.filter(function (item) &#123;</span><br><span class="line">            return [&apos;audioinput&apos;, &apos;videoinput&apos;].indexOf(item.kind) !== -1</span><br><span class="line">        &#125;).map(function (item) &#123;</span><br><span class="line">            return &#123;</span><br><span class="line">                name: item.label,</span><br><span class="line">                value: item.deviceId,</span><br><span class="line">                kind: item.kind,</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        var videos = [];</span><br><span class="line">        var audios = [];</span><br><span class="line">        for (var i = 0; i &lt; items.length; i++) &#123;</span><br><span class="line">            var item = items[i];</span><br><span class="line">            if (&apos;videoinput&apos; == item.kind) &#123;</span><br><span class="line">                var name = item.label;</span><br><span class="line">                var value = item.deviceId;</span><br><span class="line">                if (!name) &#123;</span><br><span class="line">                    name = &quot;camera-&quot; + videos.length;</span><br><span class="line">                &#125;</span><br><span class="line">                videos.push(&#123;</span><br><span class="line">                    name: name,</span><br><span class="line">                    value: value,</span><br><span class="line">                    kind: item.kind</span><br><span class="line">                &#125;);</span><br><span class="line">            &#125;</span><br><span class="line">            if (&apos;audioinput&apos; == item.kind) &#123;</span><br><span class="line">                var name = item.label;</span><br><span class="line">                var value = item.deviceId;</span><br><span class="line">                if (!name) &#123;</span><br><span class="line">                    name = &quot;microphone-&quot; + audios.length;</span><br><span class="line">                &#125;</span><br><span class="line">                audios.push(&#123;</span><br><span class="line">                    name: name,</span><br><span class="line">                    value: value,</span><br><span class="line">                    kind: item.kind</span><br><span class="line">                &#125;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        console.log(&#123;videos: videos, audios: audios&#125;);</span><br><span class="line">    //   next(&#123;videos: videos, audios: audios&#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line">export default &#123;</span><br><span class="line">    rtc, // 参数</span><br><span class="line">    option, // 参数</span><br><span class="line">    agoraFunction, // 声网开始的方法   </span><br><span class="line">    publish, // 发布本地流</span><br><span class="line">    unpublish, // 停止发布本地流</span><br><span class="line">    leave, // 离开频道</span><br><span class="line">    getDevices, // 获取可用的 摄像头 麦克风</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p><strong>到此结束</strong></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://dongxin03.github.io/2019/12/26/%E5%AE%9E%E7%8E%B0%E8%A7%86%E9%A2%91%E9%80%9A%E8%AF%9D%E5%8F%8A%E8%B0%83%E8%AF%95/" title="(Web)vue+声网-实现视频通话及调试" target="_blank" rel="external">http://dongxin03.github.io/2019/12/26/%E5%AE%9E%E7%8E%B0%E8%A7%86%E9%A2%91%E9%80%9A%E8%AF%9D%E5%8F%8A%E8%B0%83%E8%AF%95/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/cofess" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/cofess" target="_blank"><span class="text-dark">董新</span><small class="ml-1x">web前端工程师 &amp; 颓废患者</small></a></h3>
+        <div>玉树临风风流倜傥英俊潇洒才高八斗貌似潘安号称一朵梨花压海棠人送绰号玉面小飞龙的web前端工程师</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2020/04/08/%E6%BB%9A%E5%8A%A8%E6%9D%A1%E6%95%B4%E7%90%86/" title="焦灼的滚动条"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/12/16/webSocket%E7%94%A8%E6%B3%95/" title="webSocket用法"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        &copy; 2022 董新
+        
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: 'smplbtXMHut9YRSo2UkyPWLz-gzGzoHsz',
+    appKey: 'XyuLzfFfxysCEkGs3QAFOgzK',
+    placeholder: '等待你的评论...',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false});</script></body>
+</html>

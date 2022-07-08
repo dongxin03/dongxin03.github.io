@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>react+electron搭建七牛云上传图片桌面端 | 董新的博客</title>
+  <meta name="description" content="咋想的 每次上传图到七牛云，都需要登录七牛云找到仓库，上传。步骤有些繁琐。所以自己做个上传的小工具。   自己画的原型图————简单、明了、好看步骤 1、拖拽和选择图片，获取图片信息 2、获取上传token 3、点击上传 4、包装electron—— 简简单单的四步  搭建 1、create-react-app image-updata搭建一个名字为image-updata的项目 这一步有必要且先">
+<meta name="keywords" content="react,election">
+<meta property="og:type" content="article">
+<meta property="og:title" content="react+electron搭建七牛云上传图片桌面端">
+<meta property="og:url" content="http:&#x2F;&#x2F;dongxin03.github.io&#x2F;2019&#x2F;11&#x2F;28&#x2F;react+electron%E6%90%AD%E5%BB%BA%E4%B8%83%E7%89%9B%E4%BA%91%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87%E6%A1%8C%E9%9D%A2%E7%AB%AF&#x2F;index.html">
+<meta property="og:site_name" content="董新的博客">
+<meta property="og:description" content="咋想的 每次上传图到七牛云，都需要登录七牛云找到仓库，上传。步骤有些繁琐。所以自己做个上传的小工具。   自己画的原型图————简单、明了、好看步骤 1、拖拽和选择图片，获取图片信息 2、获取上传token 3、点击上传 4、包装electron—— 简简单单的四步  搭建 1、create-react-app image-updata搭建一个名字为image-updata的项目 这一步有必要且先">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http:&#x2F;&#x2F;youxiangshijie.cn&#x2F;qiniuyunshangchuan.png?imageMogr2&#x2F;auto-orient&#x2F;thumbnail&#x2F;!220x360r">
+<meta property="og:image" content="http:&#x2F;&#x2F;youxiangshijie.cn&#x2F;create-react-page.png?imageMogr2&#x2F;auto-orient&#x2F;thumbnail&#x2F;!120x360r">
+<meta property="og:image" content="http:&#x2F;&#x2F;youxiangshijie.cn&#x2F;xiugaiduankouhao.png?imageMogr2&#x2F;auto-orient&#x2F;thumbnail&#x2F;!220x360r">
+<meta property="og:image" content="http:&#x2F;&#x2F;youxiangshijie.cn&#x2F;xiugai-dabao-jingtailujing.png?imageMogr2&#x2F;auto-orient&#x2F;thumbnail&#x2F;!420x360r">
+<meta property="og:image" content="http:&#x2F;&#x2F;youxiangshijie.cn&#x2F;webpack-baocuo.png?imageMogr2&#x2F;auto-orient&#x2F;thumbnail&#x2F;!420x360r">
+<meta property="og:image" content="http:&#x2F;&#x2F;youxiangshijie.cn&#x2F;qiniu-react-page-yikaishi.png?imageMogr2&#x2F;auto-orient&#x2F;thumbnail&#x2F;!320x360r">
+<meta property="og:image" content="http:&#x2F;&#x2F;youxiangshijie.cn&#x2F;qiniu-react-page-xiugaihoudepage.png?imageMogr2&#x2F;auto-orient&#x2F;thumbnail&#x2F;!320x360r">
+<meta property="og:image" content="http:&#x2F;&#x2F;youxiangshijie.cn&#x2F;qiniu-react-page-key.png?imageMogr2&#x2F;auto-orient&#x2F;thumbnail&#x2F;!320x360r">
+<meta property="og:image" content="http:&#x2F;&#x2F;youxiangshijie.cn&#x2F;qiniu-react-mainjs.png?imageMogr2&#x2F;auto-orient&#x2F;thumbnail&#x2F;!320x360r">
+<meta property="og:image" content="http:&#x2F;&#x2F;youxiangshijie.cn&#x2F;qiniu-react-shezhipack.png?imageMogr2&#x2F;auto-orient&#x2F;thumbnail&#x2F;!220x160r">
+<meta property="og:image" content="http:&#x2F;&#x2F;youxiangshijie.cn&#x2F;qiniu-react-dabaomingling.png?imageMogr2&#x2F;auto-orient&#x2F;thumbnail&#x2F;!220x160r">
+<meta property="og:image" content="http:&#x2F;&#x2F;youxiangshijie.cn&#x2F;qiniu-react-dabaodewenjain.png?imageMogr2&#x2F;auto-orient&#x2F;thumbnail&#x2F;!220x160r">
+<meta property="og:updated_time" content="2019-11-29T09:30:36.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;youxiangshijie.cn&#x2F;qiniuyunshangchuan.png?imageMogr2&#x2F;auto-orient&#x2F;thumbnail&#x2F;!220x360r">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://dongxin03.github.io/2019/11/28/react+electron%E6%90%AD%E5%BB%BA%E4%B8%83%E7%89%9B%E4%BA%91%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87%E6%A1%8C%E9%9D%A2%E7%AB%AF/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="董新的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+</head>
+
+
+<body class="main-center theme-green" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/cofess" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">董新</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">web前端工程师 &amp; 颓废患者</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> 大沈阳</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <div> <img src="http://youxiangshijie.cn/hexo-zhuyila.png"/> <p>近期打算换工作，北京有没有需要前端的</p> </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/react/">react</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/react/%E4%B8%83%E7%89%9B%E4%BA%91/">七牛云</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/vue/">vue</a><span class="category-list-count">7</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/vue/%E5%A3%B0%E7%BD%91/">声网</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8A%80%E5%B7%A7/">技巧</a><span class="category-list-count">10</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8A%80%E5%B7%A7/html5/">html5</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AF%AD%E6%B3%95/">语法</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/" rel="tag">Markdown</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/api/" rel="tag">api</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/election/" rel="tag">election</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/https/" rel="tag">https</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/" rel="tag">js</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/" rel="tag">mac</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react/" rel="tag">react</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/router/" rel="tag">router</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vuex/" rel="tag">vuex</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/" rel="tag">web</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webSocket/" rel="tag">webSocket</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/" rel="tag">webpack</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BC%98%E5%8C%96/" rel="tag">优化</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A3%B0%E7%BD%91/" rel="tag">声网</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%80%E5%B7%A7/" rel="tag">技巧</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%84%E5%BB%BA/" rel="tag">构建</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AD%A3%E5%88%99/" rel="tag">正则</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%AD%E6%B3%95/" rel="tag">语法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%A1%B5%E9%9D%A2/" rel="tag">页面</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Markdown/" style="font-size: 13px;">Markdown</a> <a href="/tags/api/" style="font-size: 13.33px;">api</a> <a href="/tags/election/" style="font-size: 13px;">election</a> <a href="/tags/https/" style="font-size: 13px;">https</a> <a href="/tags/js/" style="font-size: 13px;">js</a> <a href="/tags/mac/" style="font-size: 13px;">mac</a> <a href="/tags/react/" style="font-size: 13px;">react</a> <a href="/tags/router/" style="font-size: 13px;">router</a> <a href="/tags/vue/" style="font-size: 14px;">vue</a> <a href="/tags/vuex/" style="font-size: 13px;">vuex</a> <a href="/tags/web/" style="font-size: 13.67px;">web</a> <a href="/tags/webSocket/" style="font-size: 13.33px;">webSocket</a> <a href="/tags/webpack/" style="font-size: 13px;">webpack</a> <a href="/tags/%E4%BC%98%E5%8C%96/" style="font-size: 13px;">优化</a> <a href="/tags/%E5%A3%B0%E7%BD%91/" style="font-size: 13px;">声网</a> <a href="/tags/%E6%8A%80%E5%B7%A7/" style="font-size: 13px;">技巧</a> <a href="/tags/%E6%9E%84%E5%BB%BA/" style="font-size: 13px;">构建</a> <a href="/tags/%E6%AD%A3%E5%88%99/" style="font-size: 13px;">正则</a> <a href="/tags/%E8%AF%AD%E6%B3%95/" style="font-size: 13px;">语法</a> <a href="/tags/%E9%A1%B5%E9%9D%A2/" style="font-size: 13px;">页面</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">六月 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a><span class="archive-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2022/06/10/%E5%BC%80%E5%A7%8B%E5%AD%A6%E4%B9%A0vue/" class="title">开始学习vue</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-06-10T10:30:06.000Z" itemprop="datePublished">2022-06-10</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E6%8A%80%E5%B7%A7/">技巧</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/12/03/%E8%8A%82%E6%B5%81/" class="title">节流</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-12-03T07:42:14.000Z" itemprop="datePublished">2020-12-03</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E6%8A%80%E5%B7%A7/">技巧</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/12/03/%E5%B8%B8%E7%94%A8%E7%9A%84%E4%B8%80%E4%BA%9B%E6%AD%A3%E5%88%99/" class="title">常用的一些正则</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-12-03T07:32:14.000Z" itemprop="datePublished">2020-12-03</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E6%8A%80%E5%B7%A7/">技巧</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/11/18/%E5%8E%9F%E7%94%9FJS%E4%BD%BF%E7%94%A8Blob%E5%AF%BC%E5%87%BAcsv%E6%96%87%E4%BB%B6/" class="title">原生JS使用Blob导出csv文件</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-11-18T12:09:38.000Z" itemprop="datePublished">2020-11-18</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E6%8A%80%E5%B7%A7/">技巧</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/08/28/webpack4.0%E6%95%B4%E7%90%86/" class="title">webpack 4.0 整理</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-08-28T02:06:18.000Z" itemprop="datePublished">2020-08-28</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="react-react+electron搭建七牛云上传图片桌面端" class="article article-type-react" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      react+electron搭建七牛云上传图片桌面端
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/11/28/react+electron%E6%90%AD%E5%BB%BA%E4%B8%83%E7%89%9B%E4%BA%91%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87%E6%A1%8C%E9%9D%A2%E7%AB%AF/" class="article-date">
+	  <time datetime="2019-11-28T08:35:57.000Z" itemprop="datePublished">2019-11-28</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/react/">react</a>►<a class="article-category-link" href="/categories/react/%E4%B8%83%E7%89%9B%E4%BA%91/">七牛云</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/election/" rel="tag">election</a>, <a class="article-tag-link" href="/tags/react/" rel="tag">react</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/11/28/react+electron%E6%90%AD%E5%BB%BA%E4%B8%83%E7%89%9B%E4%BA%91%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87%E6%A1%8C%E9%9D%A2%E7%AB%AF/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 2.2k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 10(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h3 id="咋想的"><a href="#咋想的" class="headerlink" title="咋想的"></a>咋想的</h3><blockquote>
+<p>每次上传图到七牛云，都需要登录七牛云找到仓库，上传。步骤有些繁琐。所以自己做个上传的小工具。</p>
+</blockquote>
+<ul>
+<li>自己画的原型图————简单、明了、好看<br><img src="http://youxiangshijie.cn/qiniuyunshangchuan.png?imageMogr2/auto-orient/thumbnail/!220x360r" alt="七牛云上传"><h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3></li>
+<li>1、拖拽和选择图片，获取图片信息</li>
+<li>2、获取上传token</li>
+<li>3、点击上传</li>
+<li>4、包装electron<br>—— 简简单单的四步</li>
+</ul>
+<h3 id="搭建"><a href="#搭建" class="headerlink" title="搭建"></a>搭建</h3><ul>
+<li>1、<code>create-react-app image-updata</code>搭建一个名字为image-updata的项目<br> <strong>这一步有必要且先执行这一步</strong><br> <strong><em>这时候<code>yarn start</code>就可以看到react页面里</em></strong><br> <img src="http://youxiangshijie.cn/create-react-page.png?imageMogr2/auto-orient/thumbnail/!120x360r" alt="react页面"></li>
+<li>2、<strong><code>yarn eject</code> || <code>npm run eject</code></strong> 可以显示出webpack配置文件 （修改了启动端口，默认3000 —— 不改也行，修改了静态文件打包路径，改成了相对路径 –不改也行。。。）<ul>
+<li><strong>修改启动端口</strong><br> 修改scripts/start.js 的DEFAULT_PORT （scripts文件夹没有？执行yarn eject）<br><img src="http://youxiangshijie.cn/xiugaiduankouhao.png?imageMogr2/auto-orient/thumbnail/!220x360r" alt="修改端口号"></li>
+<li><strong>修改静态文件打包路径</strong><br> 在yarn build 的时候build文件夹下的index.html里引入文件都用的是绝对路径，会找不到，—所以可以修改打包路径<br> 修改config/paths.js 的 getServedPage方法里的 servedUrl这块’/‘改成’./‘<br><img src="http://youxiangshijie.cn/xiugai-dabao-jingtailujing.png?imageMogr2/auto-orient/thumbnail/!420x360r" alt="修改打包静态路径"></li>
+<li><em>在执行<code>yarn eject</code>之后可能会报错，一般是缺少包，缺啥补啥就好*</em><br><img src="http://youxiangshijie.cn/webpack-baocuo.png?imageMogr2/auto-orient/thumbnail/!420x360r" alt="webpack报错"><br><code>yarn add @babel/helper-create-regexp-features-plugin</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="开始写页面"><a href="#开始写页面" class="headerlink" title="开始写页面"></a>开始写页面</h3><ul>
+<li>这里就比较简单，就一个页面所以把App.js改改就好</li>
+<li><strong>一开始是这样的</strong><br><img src="http://youxiangshijie.cn/qiniu-react-page-yikaishi.png?imageMogr2/auto-orient/thumbnail/!320x360r" alt="一开始"></li>
+<li><strong>简单改改之后(结构就这样的)</strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"> &lt;div className=&quot;App&quot;&gt;</span><br><span class="line">    &lt;div className=&quot;content&quot; key=&quot;content&quot;&gt;</span><br><span class="line">        &lt;div className=&quot;set-button&quot;&gt;</span><br><span class="line">            &lt;span onClick=&#123;()=&gt;&#123;&#125;&#125;&gt;上传&lt;/span&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">        &lt;div className=&quot;select-content&quot;&gt;</span><br><span class="line">            &lt;div className=&quot;into&quot;&gt;</span><br><span class="line">                    &lt;ul&gt;</span><br><span class="line">                        &lt;li&gt;图片名称&lt;/li&gt;</span><br><span class="line">                    &lt;/ul&gt;</span><br><span class="line">                &lt;p&gt;将图片拖入&lt;/p&gt;</span><br><span class="line">                &lt;p style=&#123;&#123;marginTop:&apos;30px&apos;,paddingTop:0&#125;&#125;&gt;100%&lt;/p&gt;</span><br><span class="line">                &lt;p style=&#123;&#123;marginTop:&apos;30px&apos;,paddingTop:0&#125;&#125;&gt;提示文字&lt;/p&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">            &lt;div className=&quot;select-image-button&quot;&gt;</span><br><span class="line">                &lt;input className=&quot;iamge-file&quot; type=&quot;file&quot; onChange=&#123;()=&gt;&#123;&#125;&#125;/&gt;</span><br><span class="line">                &lt;span&gt;选择图片&lt;/span&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    &lt;div className=&quot;updata-url&quot; key=&quot;updata-url&quot;&gt;</span><br><span class="line">        &lt;p&gt;图片url:&lt;/p&gt;</span><br><span class="line">            &lt;p className=&quot;image-url&quot;&gt;图片地址&lt;/p&gt;</span><br><span class="line">        &lt;p className=&quot;copy&quot; onClick=&#123;this.urlCopy&#125;&gt;点击复制&lt;/p&gt;</span><br><span class="line">        &lt;input </span><br><span class="line">            className=&quot;copy_content&quot; </span><br><span class="line">            type=&quot;text&quot; </span><br><span class="line">            value=&quot;&quot;  </span><br><span class="line">            onChange=&#123;()=&gt;&#123;&#125;&#125;</span><br><span class="line">            style=&#123;&#123;position: &apos;absolute&apos;,&apos;top&apos;:0,&apos;left&apos;: 0,&apos;opacity&apos;: 0,&apos;zIndex&apos;:&apos;-10&apos;&#125;&#125;</span><br><span class="line">        /&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>样式修改App.css,我就不多说了</li>
+</ul>
+</li>
+<li><strong>这时候的页面</strong><br><img src="http://youxiangshijie.cn/qiniu-react-page-xiugaihoudepage.png?imageMogr2/auto-orient/thumbnail/!320x360r" alt="这时候的页面"></li>
+</ul>
+<h3 id="开始步骤-1-拖拽和选择图片获取图片信息"><a href="#开始步骤-1-拖拽和选择图片获取图片信息" class="headerlink" title="开始步骤 1 拖拽和选择图片获取图片信息"></a>开始步骤 1 拖拽和选择图片获取图片信息</h3><ul>
+<li>1、<strong>拖拽图片放下的时候获取图片信息</strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">pullImageFunct()&#123; // 拖拽图片获取</span><br><span class="line">    this.dropEle = document.querySelector(&apos;.into&apos;); // 监听的鼠标放下区域</span><br><span class="line">    const thse = this;</span><br><span class="line">    this.dropEle.addEventListener(&quot;dragenter&quot;, function (e) &#123; //文件拖拽进</span><br><span class="line">        e.preventDefault();</span><br><span class="line">        e.stopPropagation();</span><br><span class="line">    &#125;, false);</span><br><span class="line">    this.dropEle.addEventListener(&quot;dragover&quot;, function (e) &#123; //文件拖拽在悬浮</span><br><span class="line">        e.preventDefault();</span><br><span class="line">        e.stopPropagation();</span><br><span class="line">    &#125;, false);</span><br><span class="line">    this.dropEle.addEventListener(&quot;dragleave&quot;, function (e) &#123;//文件拖拽离开</span><br><span class="line">        e.preventDefault();</span><br><span class="line">        e.stopPropagation();</span><br><span class="line">    &#125;, false);</span><br><span class="line">    this.dropEle.addEventListener(&quot;drop&quot;, function (e) &#123;//文件拖拽放下</span><br><span class="line">        e.preventDefault();</span><br><span class="line">        e.stopPropagation();</span><br><span class="line">        // 处理拖拽文件的逻辑</span><br><span class="line">        var df = e.dataTransfer;</span><br><span class="line">        for(var i = 0; i &lt; df.items.length; i++) &#123;</span><br><span class="line">            var item = df.items[i];</span><br><span class="line">            if(item.kind === &quot;file&quot; &amp;&amp; item.webkitGetAsEntry().isFile) &#123;</span><br><span class="line">                var file = item.getAsFile();</span><br><span class="line">                thse.setImageInfo(file); // 统一设置文件信息</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>要禁止拖进、悬浮、拖出事件，否则会跳转</strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">componentDidMount()&#123;</span><br><span class="line">    this.pullImageFunct();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><strong>拖拽事件需要监听</strong></li>
+</ul>
+</li>
+<li>2、<strong>文件选择</strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">inputFunct(e)&#123; // 选择图片</span><br><span class="line">    const path = e.target.files[0][&apos;path&apos;]; // 文件路径</span><br><span class="line">    const type = e.target.files[0][&apos;type&apos;]; </span><br><span class="line">    // 正则去文件名字  /.*\/([^\/]+)\..+/</span><br><span class="line">    const rgx = /.*\/([^\/]+)/;</span><br><span class="line">    const name = rgx.exec(path)[1];</span><br><span class="line">    this.setImageInfo(&#123;path,name,type&#125;) // 统一设置文件信息</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><strong>需要在input的change事件执行</strong></li>
+<li></li>
+<li>统一设置文件信息<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">setImageInfo(info)&#123; // 设置上传参数</span><br><span class="line">    this.setState(&#123;</span><br><span class="line">        imagePath:info.path,</span><br><span class="line">        selectImgName:info.name,</span><br><span class="line">        imageType:info.type,</span><br><span class="line">        showMessage:false,</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><strong>这个时候就可以拿到文件的path、type、name。第一步完成</strong></li>
+</ul>
+<h3 id="开始步骤-2-获取上传token"><a href="#开始步骤-2-获取上传token" class="headerlink" title="开始步骤 2 获取上传token"></a>开始步骤 2 获取上传token</h3><blockquote>
+<p>七牛上传的时候需要token，获取tokan，需要accessKey，secretKey，都可以在七牛找到<br><strong>可以在密钥管理中找到</strong></p>
+</blockquote>
+<p><img src="http://youxiangshijie.cn/qiniu-react-page-key.png?imageMogr2/auto-orient/thumbnail/!320x360r" alt="密钥管理"></p>
+<ul>
+<li><strong>获取token</strong><br><code>yarn add qiniu</code> 安装qnniu </li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">import nodeQiniu from &apos;qiniu&apos;;</span><br><span class="line">const accessKey = &apos;&apos;; // 你的密钥</span><br><span class="line">const secretKey = &apos;&apos;; // 你的密钥</span><br><span class="line">getToKen()&#123; // 获取token</span><br><span class="line">    return new Promise((res,rej)=&gt;&#123;</span><br><span class="line">        const bucket = &apos;image_list&apos;; // 这是你的图片仓库名</span><br><span class="line">        let mac = new nodeQiniu.auth.digest.Mac(accessKey, secretKey);</span><br><span class="line">        let options = &#123;</span><br><span class="line">            scope: bucket,</span><br><span class="line">            expires: 3600 * 24 // 密钥过期时间</span><br><span class="line">        &#125;;</span><br><span class="line">        let putPolicy =  new nodeQiniu.rs.PutPolicy(options);</span><br><span class="line">        let uploadToken= putPolicy.uploadToken(mac);</span><br><span class="line">        if(uploadToken)&#123;</span><br><span class="line">            res(uploadToken); // 你的上传token</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            rej();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>这是好你的密钥和图片仓库名，就可以拿到密钥</strong></li>
+</ul>
+<h3 id="开始步骤-3-上传图片"><a href="#开始步骤-3-上传图片" class="headerlink" title="开始步骤 3 上传图片"></a>开始步骤 3 上传图片</h3><p><code>qiniu.upload</code> 是七牛上传图片的api，需要blob格式的图片<br><strong>图片设置blob,在点击上传click执行</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">imageBlob()&#123; //获取图片 blob</span><br><span class="line">    const ther = this;</span><br><span class="line">    const &#123;imagePath&#125; = this.state; //文件路径</span><br><span class="line">    if(!imagePath)&#123;</span><br><span class="line">        this.setState(&#123;</span><br><span class="line">            showMessage:true,</span><br><span class="line">            message:&apos;未获取到图片&apos;</span><br><span class="line">        &#125;)</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    const xhr = new XMLHttpRequest(); // ajax请求图片</span><br><span class="line">    xhr.open(&quot;get&quot;, `file://$&#123;imagePath&#125;`, true);</span><br><span class="line">    xhr.responseType = &quot;blob&quot;;</span><br><span class="line">    xhr.onload = async function () &#123;</span><br><span class="line">        if (this.status === 200) &#123;</span><br><span class="line">            //得到一个blob对象</span><br><span class="line">            var blob = this.response; // 图片blob</span><br><span class="line">            const token = await ther.getToKen(); // 获取token</span><br><span class="line">            ther.imageUpData(&#123;token,blob&#125;) // 上传图片</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    xhr.send();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>上传</strong><br><code>yarn add qiniu-js</code> 安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">imageUpData(&#123;token,blob&#125;)&#123; // 上传图片 token,blob</span><br><span class="line">    const &#123;selectImgName,imageType&#125; = this.state; //图片名称和图片type</span><br><span class="line">    const ther = this;</span><br><span class="line">    const putExtra = &#123; // 上传需要的参数</span><br><span class="line">        fname: &quot;&quot;,</span><br><span class="line">        params: &#123;&#125;,</span><br><span class="line">        mimeType: [imageType]</span><br><span class="line">    &#125;;</span><br><span class="line">    const config = &#123; // 上传需要的参数</span><br><span class="line">        useCdnDomain: true,</span><br><span class="line">        region: qiniu.region.z2</span><br><span class="line">    &#125;;</span><br><span class="line">    const observable = qiniu.upload(blob,selectImgName,token,putExtra,config);</span><br><span class="line">    observable.subscribe(&#123;</span><br><span class="line">        next(res)&#123;</span><br><span class="line">            ther.setState(&#123;</span><br><span class="line">                progress:res.total.percent.toFixed(2) // 进度</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;,</span><br><span class="line">        error(err)&#123; // 失败</span><br><span class="line">            if(err.code == 401)&#123;</span><br><span class="line">                ther.setState(&#123;</span><br><span class="line">                    showMessage:true,</span><br><span class="line">                    message:&apos;密钥错误，检查密钥&apos;</span><br><span class="line">                &#125;)</span><br><span class="line">            &#125;else&#123;</span><br><span class="line">                ther.setState(&#123;</span><br><span class="line">                    showMessage:true,</span><br><span class="line">                    message:err.message</span><br><span class="line">                &#125;)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, </span><br><span class="line">        complete(res)&#123; // 成功</span><br><span class="line">            ther.setState(&#123;</span><br><span class="line">                loadUrl:res.key,</span><br><span class="line">                progress:0,</span><br><span class="line">                isSuccess:true,</span><br><span class="line">                message:&apos;成功--点击下方复制url&apos;</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>这时候就可以上传图片了</strong></li>
+<li></li>
+<li><strong>点击复制</strong></li>
+<li>需要设置个图片仓库中使用的域名<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">const host = &apos;&apos;; //你的图片仓库使用的域名 </span><br><span class="line">urlCopy()&#123; //点击复制url</span><br><span class="line">        const &#123;loadUrl&#125; = this.state; // 上传后返回的路径</span><br><span class="line">        const inputElement = document.querySelector(&apos;.copy_content&apos;); // 点击复制只能在input上</span><br><span class="line">        inputElement.value = host+loadUrl;</span><br><span class="line">        inputElement.select(); // 必须</span><br><span class="line">        document.execCommand(&quot;Copy&quot;); // 浏览器提供</span><br><span class="line">        global.alert(&apos;复制成功&apos;);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<h3 id="开始步骤-4-包装electron"><a href="#开始步骤-4-包装electron" class="headerlink" title="开始步骤 4 包装electron"></a>开始步骤 4 包装electron</h3><p><code>npm install electron --save-dev</code> 安装 <strong><em>这一步会很慢，可以转taobao的源</em></strong></p>
+<ul>
+<li>在根目录创建 main.js 和 renderer.js<br><img src="http://youxiangshijie.cn/qiniu-react-mainjs.png?imageMogr2/auto-orient/thumbnail/!320x360r" alt="mainjs"></li>
+<li><strong>main.js 本地测试注意端口号</strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">const &#123; app, BrowserWindow &#125; = require(&apos;electron&apos;);</span><br><span class="line">const path = require(&apos;path&apos;);</span><br><span class="line">let mainWindow = null;</span><br><span class="line">//判断命令行脚本的第二参数是否含--debug</span><br><span class="line">const debug = /--debug/.test(process.argv[2]);</span><br><span class="line">function makeSingleInstance () &#123;</span><br><span class="line">    if (process.mas) return;</span><br><span class="line">    app.requestSingleInstanceLock();</span><br><span class="line">    app.on(&apos;second-instance&apos;, () =&gt; &#123;</span><br><span class="line">        if (mainWindow) &#123;</span><br><span class="line">            if (mainWindow.isMinimized()) mainWindow.restore()</span><br><span class="line">            mainWindow.focus()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line">function createWindow () &#123;</span><br><span class="line">    mainWindow = new BrowserWindow(&#123;</span><br><span class="line">        width: 300,</span><br><span class="line">        height: 500,</span><br><span class="line">        webPreferences: &#123;</span><br><span class="line">            javascript: true,</span><br><span class="line">            plugins: true,</span><br><span class="line">            nodeIntegration: true, // 是否集成 Nodejs</span><br><span class="line">            webSecurity: false,</span><br><span class="line">            preload: path.join(__dirname, &apos;./renderer.js&apos;) // 但预加载的 js 文件内仍可以使用 Nodejs 的 API</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    mainWindow.loadURL(&quot;http://localhost:8403/&quot;); //本地测试注意端口号</span><br><span class="line">    // mainWindow.loadURL(path.join(&apos;file://&apos;,__dirname,&apos;/build/index.html&apos;)); //打包使用</span><br><span class="line"></span><br><span class="line">    //接收渲染进程的信息</span><br><span class="line">    const ipc = require(&apos;electron&apos;).ipcMain;</span><br><span class="line">    ipc.on(&apos;min&apos;, function () &#123;</span><br><span class="line">        mainWindow.minimize();</span><br><span class="line">    &#125;);</span><br><span class="line">    ipc.on(&apos;max&apos;, function () &#123;</span><br><span class="line">        mainWindow.maximize();</span><br><span class="line">    &#125;);</span><br><span class="line">    ipc.on(&quot;login&quot;,function () &#123;</span><br><span class="line">        mainWindow.maximize();</span><br><span class="line">    &#125;);</span><br><span class="line">    mainWindow.on(&apos;closed&apos;, () =&gt; &#123;</span><br><span class="line">        mainWindow = null</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line">makeSingleInstance();</span><br><span class="line">//app主进程的事件和方法</span><br><span class="line">app.on(&apos;ready&apos;, () =&gt; &#123;</span><br><span class="line">    createWindow();</span><br><span class="line">&#125;);</span><br><span class="line">app.on(&apos;window-all-closed&apos;, () =&gt; &#123;</span><br><span class="line">    if (process.platform !== &apos;darwin&apos;) &#123;</span><br><span class="line">        app.quit()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line">app.on(&apos;activate&apos;, () =&gt; &#123;</span><br><span class="line">    if (mainWindow === null) &#123;</span><br><span class="line">        createWindow();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line">module.exports = mainWindow;</span><br></pre></td></tr></table></figure></li>
+<li><strong>renderer.js 必须</strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">global.electron = require(&apos;electron&apos;);</span><br></pre></td></tr></table></figure></li>
+<li><em>修改package.json*</em></li>
+<li>添加main.js<br><img src="http://youxiangshijie.cn/qiniu-react-shezhipack.png?imageMogr2/auto-orient/thumbnail/!220x160r" alt="main.js"></li>
+<li>设置启动命令<br><code>&quot;start&quot;: &quot;node scripts/start.js | electron . --debug&quot;,</code></li>
+</ul>
+<p><em>这个时候关闭服务，在启动服务<code>yarn start</code>，就可以在electron中启动了<br>*</em>有时候会出现端口占用的情况**<br>mac 可以 <code>lsof -i :端口号</code> 看端口占中  <code>kill -9 PID</code> 关闭进程<br>*<br>*</p>
+<ul>
+<li><strong>最后一步打包</strong><br><code>npm install electron-packager --save-dev</code> 安装electron 打包工具<ul>
+<li>package.json 添加打包命令<br><code>&quot;package&quot;: &quot;electron-packager ./&quot;</code><br><img src="http://youxiangshijie.cn/qiniu-react-dabaomingling.png?imageMogr2/auto-orient/thumbnail/!220x160r" alt="打包命令"></li>
+<li>修改main.js中的mainWindow.loadURL<br><code>mainWindow.loadURL(path.join(&#39;file://&#39;,__dirname,&#39;/build/index.html&#39;))</code></li>
+</ul>
+</li>
+<li>执行 <code>yarn package</code> 会在根目录创建一个打包文件可以直接使用</li>
+<li>可以修改<code>yarn package</code>命令定制打包名称、地址、打包系统、图标</li>
+<li>什么都没设置会根据本地系统生成打包文件（我在mac上可以）<br><img src="http://youxiangshijie.cn/qiniu-react-dabaodewenjain.png?imageMogr2/auto-orient/thumbnail/!220x160r" alt="打包的文件"></li>
+</ul>
+<p><a href="https://github.com/dongxin03/react-electron-image-updata" target="_blank" rel="noopener">github位置</a></p>
+<ul>
+<li>到此结束</li>
+</ul>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://dongxin03.github.io/2019/11/28/react+electron%E6%90%AD%E5%BB%BA%E4%B8%83%E7%89%9B%E4%BA%91%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87%E6%A1%8C%E9%9D%A2%E7%AB%AF/" title="react+electron搭建七牛云上传图片桌面端" target="_blank" rel="external">http://dongxin03.github.io/2019/11/28/react+electron%E6%90%AD%E5%BB%BA%E4%B8%83%E7%89%9B%E4%BA%91%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87%E6%A1%8C%E9%9D%A2%E7%AB%AF/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/cofess" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/cofess" target="_blank"><span class="text-dark">董新</span><small class="ml-1x">web前端工程师 &amp; 颓废患者</small></a></h3>
+        <div>玉树临风风流倜傥英俊潇洒才高八斗貌似潘安号称一朵梨花压海棠人送绰号玉面小飞龙的web前端工程师</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2019/12/13/webSocket%E5%92%8Chttps%E7%9A%84%E9%97%AE%E9%A2%98/" title="webSocket和https的问题"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/11/25/vue%206%E3%80%81api%E7%9B%B2%E7%82%B9/" title="vue 6、api盲点"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        &copy; 2022 董新
+        
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: 'smplbtXMHut9YRSo2UkyPWLz-gzGzoHsz',
+    appKey: 'XyuLzfFfxysCEkGs3QAFOgzK',
+    placeholder: '等待你的评论...',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false});</script></body>
+</html>

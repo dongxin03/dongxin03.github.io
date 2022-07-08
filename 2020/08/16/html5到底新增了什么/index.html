@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>html5 到底新增了什么 | 董新的博客</title>
+  <meta name="description" content="html5 到底新增了什么新增标签 &amp;lt;template&amp;gt; 通过javascript在运行时实例化内容的容器 &amp;lt;section&amp;gt; 定义文档中的一个章节 &amp;lt;nav&amp;gt; 定义只包含导航连接的章节 &amp;lt;article&amp;gt; 定义可以独立余内容其余部分的完整独立内容块 &amp;lt;aside&amp;gt; 定义和页面内容关联较低的内容——如果被删除，剩下的内容仍然很合理 &amp;l">
+<meta name="keywords" content="web">
+<meta property="og:type" content="article">
+<meta property="og:title" content="html5 到底新增了什么">
+<meta property="og:url" content="http:&#x2F;&#x2F;dongxin03.github.io&#x2F;2020&#x2F;08&#x2F;16&#x2F;html5%E5%88%B0%E5%BA%95%E6%96%B0%E5%A2%9E%E4%BA%86%E4%BB%80%E4%B9%88&#x2F;index.html">
+<meta property="og:site_name" content="董新的博客">
+<meta property="og:description" content="html5 到底新增了什么新增标签 &amp;lt;template&amp;gt; 通过javascript在运行时实例化内容的容器 &amp;lt;section&amp;gt; 定义文档中的一个章节 &amp;lt;nav&amp;gt; 定义只包含导航连接的章节 &amp;lt;article&amp;gt; 定义可以独立余内容其余部分的完整独立内容块 &amp;lt;aside&amp;gt; 定义和页面内容关联较低的内容——如果被删除，剩下的内容仍然很合理 &amp;l">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-08-18T12:01:26.000Z">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://dongxin03.github.io/2020/08/16/html5%E5%88%B0%E5%BA%95%E6%96%B0%E5%A2%9E%E4%BA%86%E4%BB%80%E4%B9%88/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="董新的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+</head>
+
+
+<body class="main-center theme-green" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/cofess" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">董新</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">web前端工程师 &amp; 颓废患者</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> 大沈阳</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <div> <img src="http://youxiangshijie.cn/hexo-zhuyila.png"/> <p>近期打算换工作，北京有没有需要前端的</p> </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/react/">react</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/react/%E4%B8%83%E7%89%9B%E4%BA%91/">七牛云</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/vue/">vue</a><span class="category-list-count">7</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/vue/%E5%A3%B0%E7%BD%91/">声网</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8A%80%E5%B7%A7/">技巧</a><span class="category-list-count">10</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8A%80%E5%B7%A7/html5/">html5</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AF%AD%E6%B3%95/">语法</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/" rel="tag">Markdown</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/api/" rel="tag">api</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/election/" rel="tag">election</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/https/" rel="tag">https</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/js/" rel="tag">js</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/" rel="tag">mac</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react/" rel="tag">react</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/router/" rel="tag">router</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vue/" rel="tag">vue</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vuex/" rel="tag">vuex</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/" rel="tag">web</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webSocket/" rel="tag">webSocket</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/" rel="tag">webpack</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BC%98%E5%8C%96/" rel="tag">优化</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A3%B0%E7%BD%91/" rel="tag">声网</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8A%80%E5%B7%A7/" rel="tag">技巧</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%84%E5%BB%BA/" rel="tag">构建</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%AD%A3%E5%88%99/" rel="tag">正则</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%AD%E6%B3%95/" rel="tag">语法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%A1%B5%E9%9D%A2/" rel="tag">页面</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/Markdown/" style="font-size: 13px;">Markdown</a> <a href="/tags/api/" style="font-size: 13.33px;">api</a> <a href="/tags/election/" style="font-size: 13px;">election</a> <a href="/tags/https/" style="font-size: 13px;">https</a> <a href="/tags/js/" style="font-size: 13px;">js</a> <a href="/tags/mac/" style="font-size: 13px;">mac</a> <a href="/tags/react/" style="font-size: 13px;">react</a> <a href="/tags/router/" style="font-size: 13px;">router</a> <a href="/tags/vue/" style="font-size: 14px;">vue</a> <a href="/tags/vuex/" style="font-size: 13px;">vuex</a> <a href="/tags/web/" style="font-size: 13.67px;">web</a> <a href="/tags/webSocket/" style="font-size: 13.33px;">webSocket</a> <a href="/tags/webpack/" style="font-size: 13px;">webpack</a> <a href="/tags/%E4%BC%98%E5%8C%96/" style="font-size: 13px;">优化</a> <a href="/tags/%E5%A3%B0%E7%BD%91/" style="font-size: 13px;">声网</a> <a href="/tags/%E6%8A%80%E5%B7%A7/" style="font-size: 13px;">技巧</a> <a href="/tags/%E6%9E%84%E5%BB%BA/" style="font-size: 13px;">构建</a> <a href="/tags/%E6%AD%A3%E5%88%99/" style="font-size: 13px;">正则</a> <a href="/tags/%E8%AF%AD%E6%B3%95/" style="font-size: 13px;">语法</a> <a href="/tags/%E9%A1%B5%E9%9D%A2/" style="font-size: 13px;">页面</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">六月 2022</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">十二月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">十一月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">八月 2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a><span class="archive-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2022/06/10/%E5%BC%80%E5%A7%8B%E5%AD%A6%E4%B9%A0vue/" class="title">开始学习vue</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-06-10T10:30:06.000Z" itemprop="datePublished">2022-06-10</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E6%8A%80%E5%B7%A7/">技巧</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/12/03/%E8%8A%82%E6%B5%81/" class="title">节流</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-12-03T07:42:14.000Z" itemprop="datePublished">2020-12-03</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E6%8A%80%E5%B7%A7/">技巧</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/12/03/%E5%B8%B8%E7%94%A8%E7%9A%84%E4%B8%80%E4%BA%9B%E6%AD%A3%E5%88%99/" class="title">常用的一些正则</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-12-03T07:32:14.000Z" itemprop="datePublished">2020-12-03</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E6%8A%80%E5%B7%A7/">技巧</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/11/18/%E5%8E%9F%E7%94%9FJS%E4%BD%BF%E7%94%A8Blob%E5%AF%BC%E5%87%BAcsv%E6%96%87%E4%BB%B6/" class="title">原生JS使用Blob导出csv文件</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-11-18T12:09:38.000Z" itemprop="datePublished">2020-11-18</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/%E6%8A%80%E5%B7%A7/">技巧</a>
+              </p>
+              <p class="item-title">
+                <a href="/2020/08/28/webpack4.0%E6%95%B4%E7%90%86/" class="title">webpack 4.0 整理</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-08-28T02:06:18.000Z" itemprop="datePublished">2020-08-28</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-html5到底新增了什么" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      html5 到底新增了什么
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2020/08/16/html5%E5%88%B0%E5%BA%95%E6%96%B0%E5%A2%9E%E4%BA%86%E4%BB%80%E4%B9%88/" class="article-date">
+	  <time datetime="2020-08-16T02:52:04.000Z" itemprop="datePublished">2020-08-16</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/%E6%8A%80%E5%B7%A7/">技巧</a>►<a class="article-category-link" href="/categories/%E6%8A%80%E5%B7%A7/html5/">html5</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/web/" rel="tag">web</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2020/08/16/html5%E5%88%B0%E5%BA%95%E6%96%B0%E5%A2%9E%E4%BA%86%E4%BB%80%E4%B9%88/#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 2.3k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 8(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <hr>
+<h2 id="html5-到底新增了什么"><a href="#html5-到底新增了什么" class="headerlink" title="html5 到底新增了什么"></a>html5 到底新增了什么</h2><h3 id="新增标签"><a href="#新增标签" class="headerlink" title="新增标签"></a>新增标签</h3><ul>
+<li><code>&lt;template&gt;</code> 通过javascript在运行时实例化内容的容器</li>
+<li><code>&lt;section&gt;</code> 定义文档中的一个章节</li>
+<li><code>&lt;nav&gt;</code> 定义只包含导航连接的章节</li>
+<li><code>&lt;article&gt;</code> 定义可以独立余内容其余部分的完整独立内容块</li>
+<li><code>&lt;aside&gt;</code> 定义和页面内容关联较低的内容——如果被删除，剩下的内容仍然很合理</li>
+<li><code>&lt;header&gt;</code> 定义页面或章节的头部。它经常包含logo、页面标题和导航性的目录</li>
+<li><code>&lt;footer&gt;</code> 定义页面或章节尾部。它经常包含版权信息、法律信息链接和反馈建议用的地址。</li>
+<li><code>&lt;main&gt;</code> 定义文档中主要或重要的内容</li>
+</ul>
+<hr>
+<ul>
+<li><code>&lt;figure&gt;</code> 代表一个和文档有关的图例</li>
+<li><code>&lt;figcaption&gt;</code> 代表一个图例的说明</li>
+</ul>
+<hr>
+<ul>
+<li><code>&lt;time&gt;</code> 代表日期和时间值；机器可读的等价形式通过datetime属性指定</li>
+<li><code>&lt;mark&gt;</code> 代表一段需要被高亮引用文字</li>
+</ul>
+<hr>
+<ul>
+<li><code>&lt;ruby&gt;</code> 代表被ruby注释标记的文本，如中文汉子和它的拼音</li>
+<li><code>&lt;rt&gt;</code> 代表ruby注释，如中文拼音</li>
+<li><code>&lt;rp&gt;</code> 代表ruby注释两边的额外插入文本，用于不支持ruby注释显示的浏览器中提供友好的注释显示</li>
+<li><code>&lt;bdi&gt;</code> 代表需要脱离父元素文本方向的一段文本。它允许嵌入一段不同或未知文本方向格式的文本</li>
+<li><code>&lt;wbr&gt;</code> 代表（建议）换行，当文本太长需要换行时将会在此处添加换行符号</li>
+</ul>
+<hr>
+<ul>
+<li><code>&lt;embed&gt;</code> 代表一个嵌入的外部资源，如应用程序或交互内容</li>
+<li><code>&lt;video&gt;</code> 代表一段视频及其视频文件和字幕，并提供了播放视频的用户界面</li>
+<li><code>&lt;audio&gt;</code> 代表一段声音，或音频流</li>
+<li><code>&lt;source&gt;</code> 为 video 或 audio 这类媒体元素指定媒体源</li>
+<li><code>&lt;track&gt;</code> 为 video 或 audio 这类媒体元素指定文本轨道（字幕）</li>
+<li><code>&lt;canvas&gt;</code> 代表位图区域，可以通过脚本在它上面呈现图形，如图表，游戏绘图等</li>
+<li><code>&lt;svg&gt;</code> 定义一个嵌入式矢量图</li>
+<li><code>&lt;math&gt;</code> 定义一段数学公式</li>
+</ul>
+<hr>
+<ul>
+<li><code>&lt;datalist&gt;</code> 代表提供给其他控件的一组预定义选项</li>
+<li><code>&lt;keygen&gt;</code> 代表一个密钥对生成器控件</li>
+<li><code>&lt;output&gt;</code> 代表计算值</li>
+<li><code>&lt;progress&gt;</code> 代表进度条</li>
+<li><code>&lt;meter&gt;</code> 代表滑动条</li>
+</ul>
+<hr>
+<ul>
+<li><code>&lt;details&gt;</code> 代表一个用户可以（点击）获取额外信息或控件的小部件</li>
+<li><code>&lt;summary&gt;</code> 代表 details 元素的综述 或标题</li>
+<li><code>&lt;menuitem&gt;</code> 代表一个用户可以点击的菜单项</li>
+<li><code>&lt;menu&gt;</code> 代表菜单</li>
+</ul>
+<hr>
+<h3 id="通讯"><a href="#通讯" class="headerlink" title="通讯"></a>通讯</h3><ul>
+<li><code>web sockets</code> 允许在页面和服务器之间建立持久连接并通过这种方法来交换非html数据（全双工通道，可以双向通讯）</li>
+</ul>
+<hr>
+<ul>
+<li><code>server-sent events</code> 简称sse，允许服务器向客户端推送事件，而不是仅在响应客户端请求时服务器才能发送数据的传统范式（单向通道，只能服务器向浏览器发送）<ol>
+<li>sse 使用http协议，现有的服务器软件都支持。webSocket是一个独立协议</li>
+<li>sse属于轻量级，使用简单，webSocket 协议相对复杂</li>
+<li>sse默认支持断线重连，webSocket需要自己实现</li>
+<li>sse一般只用来传送文本，二进制数据需要编码后传送，webSocket默认支持传送二进制数据</li>
+<li>支持自定义发送的消息类型</li>
+</ol>
+</li>
+</ul>
+<hr>
+<ul>
+<li><code>webRTC</code> 这项技术，其中的RTC代表的是即时通信，允许连接到其他人，直接在浏览器中控制视频会议，而不需要一个插件或是外部的应用程序</li>
+</ul>
+<hr>
+<h3 id="离线-amp-存储"><a href="#离线-amp-存储" class="headerlink" title="离线 &amp; 存储"></a>离线 &amp; 存储</h3><ul>
+<li><code>离线资源：应用程序缓存</code> （火狐）全面支持html5离线资源规范。其他大多数针对离线资源仅提供了某种程度上的支持</li>
+<li><code>在线和离线事件</code> firefox3 支持WHATWG在线和离线事件，这可以让应用程序和扩展检测到是否存在可用的网络连接，以及在连接建立和断开时能感知到</li>
+<li><code>WHATWG 客户端会话和持久化存储（又名DOM存储）</code> 客户端会话和持久化存储让web应用程序能够在客户端存储结构化数据</li>
+<li><code>indexedDB</code> 是一个为了能够在浏览器中存储大量结构化数据，并且能够在这些数据上使用索引进行高性能检索的web标准</li>
+<li><code>web应用程序中使用文件</code> 对新的html5文件Api的支持已经被添加到Gecko中，从而使web应用程序可以访问用户选择的本地文件。这包括 type file 的input元素的新的multiple 属性针对多文件的选择支持。还有fileReader</li>
+</ul>
+<hr>
+<h3 id="多媒体"><a href="#多媒体" class="headerlink" title="多媒体"></a>多媒体</h3><ul>
+<li><code>使用html5 音视频</code> audio 和video 元素嵌入并支持新的多媒体操作</li>
+<li><code>使用camera API</code> 允许使用，操作计算机摄像头，并从中存储图像</li>
+<li><code>Track 和 WebVTT</code> <code>track</code> 元素支持字幕和章节。webVTT一个文本轨迹格式</li>
+</ul>
+<hr>
+<h3 id="3D，图像-amp-效果"><a href="#3D，图像-amp-效果" class="headerlink" title="3D，图像 &amp; 效果"></a>3D，图像 &amp; 效果</h3><ul>
+<li><code>canvas</code></li>
+<li><code>WebGL</code> WebGL通过引入了一套非常符合OpenGL ES2.0并且可以用在HTML5<code>&lt;canvas&gt;</code>元素中的api给Web带来了3D图像功能</li>
+<li><code>svg</code> 一个基于XML的可以直接嵌入到html中的矢量图格式</li>
+</ul>
+<hr>
+<h3 id="性能-amp-集成"><a href="#性能-amp-集成" class="headerlink" title="性能 &amp; 集成"></a>性能 &amp; 集成</h3><ul>
+<li><code>Web Workers</code> 能够把javaScript计算委托给后台线程，通过允许这些活动以防止使用交互型事件变得缓慢</li>
+<li><code>XMLHttpRequest Level2</code> 允许异步读取页面的某些部分，允许其显示动态内容，根据时间和用户行为而有所不同。这就是在Ajax背后的技术</li>
+<li><code>即时编译javaScript引擎</code> 新一代的javaScript 引擎功能更强大，性能更杰出</li>
+<li><code>History API</code> 允许对浏览器历史记录进行操作。这对那些交互的加载新信息的页面尤其有用</li>
+<li><code>contentEditable属性：把你的网站变成wiki（多人协作的写作系统）</code> html5 已经把contentEditable属性标准化了。</li>
+<li><code>拖放</code> html5的拖放API能够支持网站内部和网站之间的拖放项目。同时也提供了一个更简单的供扩展和基于Mozilla （制作火狐的基金会）的应用程序使用的API</li>
+<li><code>html中的焦点管理</code> 支持新的html5 activeElement和hasFocus属性。</li>
+<li><code>基于Web的协议处理程序</code> 你现在可以使用<code>navigator.registerProtocolHandler()</code> 方法把web应用程序注册成一个协议处理程序</li>
+<li><code>requestAnimationFrame</code> 允许控制动画渲染以获得更优性能</li>
+<li><code>全屏API</code> 为一个网页或者应用程序控制使用整个屏幕，而不是显示浏览器界面</li>
+<li><code>指针锁定API</code> 允许锁定到内容的指针，这样游戏或者类似应用程序在指针到达窗口限制时也不会失去焦点</li>
+<li><code>在线和离线事件</code> 为了构建一个良好的具有离线功能的web应用程序，你需要知道什么时候你的应用程序确实离线了。顺便提一句，在你的应用程序又再回到在线状态时你也需要知道。</li>
+</ul>
+<hr>
+<h3 id="设备访问"><a href="#设备访问" class="headerlink" title="设备访问"></a>设备访问</h3><ul>
+<li><code>使用Camera API</code> 允许使用和操作计算机的摄像头，并从中存取照片</li>
+<li><code>触控事件</code> 对用户按下触控屏幕的事件做出反应的处理程序</li>
+<li><code>使用地理位置定位</code> 让浏览器使用地理位置服务定位用户的位置</li>
+<li><code>检测设备方向</code> 让用户在运行浏览器的设备变更方向时能够得到信息。这可以被用作一种输入设备（例如制作能够对设备位置做出反应的游戏）或者使用页面的布局跟屏幕的方向相适应（横向或纵向）<h3 id="样式"><a href="#样式" class="headerlink" title="样式"></a>样式</h3></li>
+<li><code>新的背景样式特性</code> 现在可以使用 <strong>box-shadow</strong>给逻辑框设置一个阴影，而且还可以设置 多背景。</li>
+<li><code>更精美的边框</code> 现在不仅可以使用图像来格式化边框，使用<strong>border-image</strong>和它关联的普通属性，而且可以通过<strong>border-radius</strong>属性来支持援交边框</li>
+<li><code>为你的样式设置动画</code> 使用css Transitions 以在不同状态间设置动画，或者使用css Animations在页面的某些部分设置动画而不需要一个触发事件，你现在可以在页面中控制移动元素来。</li>
+<li><code>排版方面的改进</code> 作者们如今又更强大的能力使自己的页面文字达到更佳的排版。他们不但可以控制<strong>text-overflow</strong>和<strong>hyphenation</strong>，还可以给它设置一个阴影或者更精细的控制它的<strong>decorations</strong>。感谢新的<strong>@font-face</strong>规则，现在我们可以下载并应用自定义的字体了</li>
+<li><code>新的展示性布局</code> 为了提高设计的灵活性，已经有两种新的布局被添加进来： css多栏布局，以及css 灵活方框布局</li>
+</ul>
+<hr>
+<blockquote>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/Guide/HTML/HTML5" target="_blank" rel="noopener">抄录-MDN</a></p>
+</blockquote>
+<hr>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://dongxin03.github.io/2020/08/16/html5%E5%88%B0%E5%BA%95%E6%96%B0%E5%A2%9E%E4%BA%86%E4%BB%80%E4%B9%88/" title="html5 到底新增了什么" target="_blank" rel="external">http://dongxin03.github.io/2020/08/16/html5%E5%88%B0%E5%BA%95%E6%96%B0%E5%A2%9E%E4%BA%86%E4%BB%80%E4%B9%88/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/cofess" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/cofess" target="_blank"><span class="text-dark">董新</span><small class="ml-1x">web前端工程师 &amp; 颓废患者</small></a></h3>
+        <div>玉树临风风流倜傥英俊潇洒才高八斗貌似潘安号称一朵梨花压海棠人送绰号玉面小飞龙的web前端工程师</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2020/08/18/ES6ES7ES8/" title="ES6ES7ES8"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2020/04/08/%E6%BB%9A%E5%8A%A8%E6%9D%A1%E6%95%B4%E7%90%86/" title="焦灼的滚动条"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/cofess" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="http://weibo.com/cofess" target="_blank" title="Weibo" data-toggle=tooltip data-placement=top><i class="icon icon-weibo"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        &copy; 2022 董新
+        
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: 'smplbtXMHut9YRSo2UkyPWLz-gzGzoHsz',
+    appKey: 'XyuLzfFfxysCEkGs3QAFOgzK',
+    placeholder: '等待你的评论...',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false});</script></body>
+</html>
